@@ -1,0 +1,170 @@
+/**
+ * =========================================================================
+ * ManggisKas Desa - Application Stylesheet (style.css)
+ * AgroFinance Forest UI Design System (Sesuai DESIGN.md & Stitch Export)
+ * =========================================================================
+ */
+
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&display=swap');
+
+:root {
+  --primary: #012d1d;
+  --primary-container: #1b4332;
+  --secondary: #2c694e;
+  --background: #f8f9fa;
+  --surface-white: #ffffff;
+  --surface-subtle: #f3f4f6;
+  --border-subtle: #e5e7eb;
+  --text-primary: #111827;
+  --text-secondary: #4b5563;
+  --text-muted: #9ca3af;
+  --status-lunas-bg: #ecfdf5;
+  --status-lunas-fg: #065f46;
+  --status-tertunda-bg: #fefce8;
+  --status-tertunda-fg: #854d0e;
+  --status-selisih-bg: #fef2f2;
+  --status-selisih-fg: #991b1b;
+  --status-disetujui-bg: #eff6ff;
+  --status-disetujui-fg: #1e40af;
+  --status-menunggu-bg: #fffbeb;
+  --status-menunggu-fg: #b45309;
+  --status-ditolak-bg: #fee2e2;
+  --status-ditolak-fg: #b91c1c;
+  --chart-mint-stroke: #52b788;
+  --chart-mint-fill: #d8f3dc;
+}
+
+body {
+  font-family: 'Inter', sans-serif;
+  background-color: var(--background);
+  color: var(--text-primary);
+  margin: 0;
+  padding: 0;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+h1, h2, h3, h4, .font-display, .font-headline-lg, .font-headline-md, .font-headline-sm, .font-stat-display {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+}
+
+/* Tabular figures for ledger numbers */
+.font-mono, td, .stat-number, .tabular-nums {
+  font-variant-numeric: tabular-nums;
+}
+
+/* Custom scrollbars */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(1, 45, 29, 0.15);
+  border-radius: 9999px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(1, 45, 29, 0.3);
+}
+
+/* Responsive transitions */
+.view-panel {
+  display: none;
+  opacity: 0;
+  transition: opacity 0.15s ease-in-out;
+}
+.view-panel.active {
+  display: block;
+  opacity: 1;
+}
+
+/* Pulse animation */
+@keyframes softPulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.75; transform: scale(1.05); }
+}
+.animate-soft-pulse {
+  animation: softPulse 2s infinite ease-in-out;
+}
+
+/* Toast Notification */
+#toast-container {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  z-index: 9999;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  pointer-events: none;
+}
+.toast-item {
+  pointer-events: auto;
+  background: #ffffff;
+  color: #111827;
+  padding: 12px 18px;
+  border-radius: 14px;
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.05);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 14px;
+  font-weight: 500;
+  border-left: 4px solid var(--secondary);
+  animation: slideInRight 0.25s ease-out;
+  max-width: 380px;
+}
+.toast-item.success { border-left-color: #065f46; }
+.toast-item.error { border-left-color: #991b1b; }
+.toast-item.warning { border-left-color: #b45309; }
+
+@keyframes slideInRight {
+  from { opacity: 0; transform: translateX(40px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+
+/* Modal Backdrop */
+.modal-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background-color: rgba(17, 24, 39, 0.45);
+  backdrop-filter: blur(4px);
+  z-index: 1000;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+}
+.modal-overlay.active {
+  display: flex;
+}
+
+/* Print Stylesheet for Official Reports */
+@media print {
+  body {
+    background: #ffffff !important;
+    color: #000000 !important;
+  }
+  aside, header, #sidebar, #top-nav, .no-print, button, input[type="button"], #toast-container {
+    display: none !important;
+  }
+  .pl-\[84px\] {
+    padding-left: 0 !important;
+  }
+  main {
+    padding-top: 0 !important;
+  }
+  #view-laporan {
+    display: block !important;
+  }
+  #report-canvas-paper {
+    box-shadow: none !important;
+    border: none !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+}

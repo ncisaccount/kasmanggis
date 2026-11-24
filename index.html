@@ -1,0 +1,1767 @@
+<!DOCTYPE html>
+<html lang="id" class="h-full">
+<head>
+  <meta charset="utf-8"/>
+  <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+  <title>ManggisKas Desa — Sistem Keuangan Panen BUMDes Manggis Jaya Mandiri</title>
+  
+  <!-- Google Fonts: Plus Jakarta Sans & Inter -->
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin=""/>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet"/>
+  
+  <!-- Material Symbols Icons -->
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/>
+  
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {
+            "primary": "#012d1d",
+            "primary-container": "#1b4332",
+            "secondary": "#2c694e",
+            "secondary-container": "#aeeecb",
+            "background": "#f8f9fa",
+            "surface-white": "#FFFFFF",
+            "surface-subtle": "#F3F4F6",
+            "surface-container": "#edeeef",
+            "border-subtle": "#E5E7EB",
+            "text-primary": "#111827",
+            "text-secondary": "#4B5563",
+            "text-muted": "#9CA3AF",
+            "status-lunas-bg": "#ECFDF5",
+            "status-lunas-fg": "#065F46",
+            "status-tertunda-bg": "#FEFCE8",
+            "status-tertunda-fg": "#854D0E",
+            "status-selisih-bg": "#FEF2F2",
+            "status-selisih-fg": "#991B1B",
+            "status-disetujui-bg": "#EFF6FF",
+            "status-disetujui-fg": "#1E40AF",
+            "status-menunggu-bg": "#FFFBEB",
+            "status-menunggu-fg": "#B45309",
+            "status-ditolak-bg": "#FEE2E2",
+            "status-ditolak-fg": "#B91C1C",
+            "chart-mint-stroke": "#52B788",
+            "chart-mint-fill": "#D8F3DC"
+          },
+          fontFamily: {
+            "headline-lg": ["Plus Jakarta Sans"],
+            "headline-md": ["Plus Jakarta Sans"],
+            "headline-sm": ["Plus Jakarta Sans"],
+            "stat-display": ["Plus Jakarta Sans"],
+            "body-md": ["Inter"],
+            "body-sm": ["Inter"]
+          }
+        }
+      }
+    };
+  </script>
+  
+  <!-- Custom App Styles -->
+  <link rel="stylesheet" href="css/style.css"/>
+</head>
+
+<body class="bg-background font-body-md text-text-primary antialiased min-h-screen">
+
+  <!-- ========================================================================= -->
+  <!-- SIDEBAR KIRI (DESKTOP) — 84px DOCKED RAIL                                -->
+  <!-- ========================================================================= -->
+  <aside class="fixed left-0 top-0 bottom-0 w-[84px] bg-surface-white shadow-[0_1px_8px_rgba(0,0,0,0.04)] z-50 flex flex-col items-center py-5 no-print">
+    <!-- Brand Icon -->
+    <div class="flex items-center justify-center mb-6">
+      <div class="w-11 h-11 rounded-2xl bg-primary-container text-white flex items-center justify-center shadow-md cursor-pointer" data-path="dashboard" title="ManggisKas Desa">
+        <span class="material-symbols-outlined text-[24px]">eco</span>
+      </div>
+    </div>
+
+    <!-- Nav List -->
+    <nav class="flex-1 flex flex-col items-center gap-2 w-full px-2">
+      <a data-path="dashboard" href="#/dashboard" class="w-11 h-11 rounded-xl flex items-center justify-center transition-all bg-primary-container text-white font-bold shadow-sm" title="Dashboard Ringkasan">
+        <span class="material-symbols-outlined text-[22px]">space_dashboard</span>
+      </a>
+      <a data-path="input-panen" href="#/input-panen" class="w-11 h-11 rounded-xl flex items-center justify-center text-text-muted hover:bg-surface-subtle hover:text-primary transition-all" title="Input Penjualan & Setoran">
+        <span class="material-symbols-outlined text-[22px]">agriculture</span>
+      </a>
+      <a data-path="kas-operasional" href="#/kas-operasional" class="w-11 h-11 rounded-xl flex items-center justify-center text-text-muted hover:bg-surface-subtle hover:text-primary transition-all" title="Buku Kas & Upah Tim">
+        <span class="material-symbols-outlined text-[22px]">account_balance_wallet</span>
+      </a>
+      <a data-path="audit-approval" href="#/audit-approval" class="w-11 h-11 rounded-xl flex items-center justify-center text-text-muted hover:bg-surface-subtle hover:text-primary transition-all relative" title="Audit & Approval Koordinator">
+        <span class="material-symbols-outlined text-[22px]">verified</span>
+        <span class="absolute top-2 right-2 w-2 h-2 rounded-full bg-status-menunggu-fg"></span>
+      </a>
+      <a data-path="laporan" href="#/laporan" class="w-11 h-11 rounded-xl flex items-center justify-center text-text-muted hover:bg-surface-subtle hover:text-primary transition-all" title="Laporan & Ekspor Resmi">
+        <span class="material-symbols-outlined text-[22px]">summarize</span>
+      </a>
+      <a data-path="master-data" href="#/master-data" class="w-11 h-11 rounded-xl flex items-center justify-center text-text-muted hover:bg-surface-subtle hover:text-primary transition-all" title="Master Data Operasional">
+        <span class="material-symbols-outlined text-[22px]">database</span>
+      </a>
+    </nav>
+
+    <!-- Bottom Actions -->
+    <div class="flex flex-col items-center gap-2 w-full px-2 pt-3 border-t border-border-subtle">
+      <a data-path="login" href="#/login" class="w-11 h-11 rounded-xl flex items-center justify-center text-text-muted hover:bg-surface-subtle hover:text-primary transition-all" title="Ganti Peran / Portal Login">
+        <span class="material-symbols-outlined text-[22px]">switch_account</span>
+      </a>
+      <a data-path="keluar" href="#/keluar" class="w-11 h-11 rounded-xl flex items-center justify-center text-text-muted hover:bg-status-ditolak-bg hover:text-status-ditolak-fg transition-all" title="Keluar Akun">
+        <span class="material-symbols-outlined text-[22px]">logout</span>
+      </a>
+    </div>
+  </aside>
+
+  <!-- ========================================================================= -->
+  <!-- MAIN WRAPPER                                                              -->
+  <!-- ========================================================================= -->
+  <div class="pl-[84px] min-h-screen flex flex-col">
+
+    <!-- TOP HEADER -->
+    <header class="fixed top-0 left-[84px] right-0 h-16 bg-surface-white/90 backdrop-blur-xl shadow-[0_1px_8px_rgba(0,0,0,0.04)] z-40 flex items-center justify-between px-6 no-print">
+      <div class="flex items-center gap-6">
+        <div class="flex items-center gap-2 cursor-pointer" data-path="dashboard">
+          <span class="font-headline-sm font-bold text-primary tracking-tight text-lg">ManggisKas</span>
+          <span class="text-xs text-status-lunas-fg bg-status-lunas-bg px-2.5 py-0.5 rounded-full font-semibold">Desa Mandiri</span>
+        </div>
+
+        <!-- Pill Navigation Bar -->
+        <nav class="hidden xl:flex items-center gap-1 bg-surface-subtle p-1 rounded-full text-xs">
+          <a data-path="dashboard" href="#/dashboard" class="px-4 py-1.5 rounded-full transition-colors bg-primary-container text-white font-bold shadow-sm">Dashboard</a>
+          <a data-path="input-panen" href="#/input-panen" class="px-4 py-1.5 rounded-full text-text-secondary hover:text-text-primary transition-colors">Input Panen</a>
+          <a data-path="kas-operasional" href="#/kas-operasional" class="px-4 py-1.5 rounded-full text-text-secondary hover:text-text-primary transition-colors">Kas Operasional</a>
+          <a data-path="upah-tim" href="#/upah-tim" class="px-4 py-1.5 rounded-full text-text-secondary hover:text-text-primary transition-colors">Upah Tim</a>
+          <a data-path="audit-approval" href="#/audit-approval" class="px-4 py-1.5 rounded-full text-text-secondary hover:text-text-primary transition-colors">Audit &amp; Approval</a>
+          <a data-path="laporan" href="#/laporan" class="px-4 py-1.5 rounded-full text-text-secondary hover:text-text-primary transition-colors">Laporan</a>
+          <a data-path="master-data" href="#/master-data" class="px-4 py-1.5 rounded-full text-text-secondary hover:text-text-primary transition-colors">Master Data</a>
+        </nav>
+      </div>
+
+      <!-- User & Quick Controls -->
+      <div class="flex items-center gap-4">
+        <!-- Live Connection Status -->
+        <div id="gas-sync-badge" class="hidden sm:inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-surface-subtle text-xs text-text-secondary font-medium">
+          <span class="w-2 h-2 rounded-full bg-chart-mint-stroke animate-pulse"></span>
+          <span>Turbo SWR Aktif</span>
+        </div>
+
+        <button onclick="App.showVerificationModal('MJK-8F2A-99B1-E37C')" class="w-9 h-9 rounded-full bg-surface-subtle flex items-center justify-center text-text-secondary hover:text-primary transition-all" title="Verifikasi Dokumen">
+          <span class="material-symbols-outlined text-[20px]">qr_code_scanner</span>
+        </button>
+
+        <div class="flex items-center gap-2.5 pl-2 border-l border-border-subtle cursor-pointer" data-path="login">
+          <div class="text-right hidden sm:block">
+            <p id="header-user-display" class="font-headline-sm text-xs font-bold text-text-primary leading-tight">Ahmad Pratama</p>
+            <p id="header-user-role" class="text-[11px] text-text-muted">Koordinator Lapangan</p>
+          </div>
+          <div id="header-user-img" class="w-9 h-9 rounded-full bg-primary-container text-white flex items-center justify-center font-bold text-xs shadow-sm">
+            AP
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <!-- MAIN VIEW CONTAINER -->
+    <main class="w-full pt-16 bg-background flex-1">
+
+      <!-- ===================================================================== -->
+      <!-- VIEW 1: DASHBOARD RINGKASAN KEUANGAN PANEN (SCREEN 2)                 -->
+      <!-- ===================================================================== -->
+      <div id="view-dashboard" class="view-panel active px-4 md:px-8 py-6 max-w-[1600px] mx-auto w-full">
+        <!-- Top Action & Welcome Bar -->
+        <div class="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-6">
+          <div>
+            <div class="flex items-center gap-2 mb-1">
+              <span class="text-xs uppercase tracking-wider text-secondary font-bold">BUMDes Manggis Jaya Mandiri</span>
+              <span class="w-1.5 h-1.5 rounded-full bg-chart-mint-stroke"></span>
+              <span class="text-xs text-text-muted">Desa Sindangasih, Jawa Barat</span>
+            </div>
+            <h1 class="font-headline-lg text-2xl md:text-3xl font-bold text-primary tracking-tight">Selamat Datang Kembali, Ahmad</h1>
+            <p class="text-sm text-text-secondary">Ringkasan Keuangan Panen Manggis Desa Periode Agustus 2026</p>
+          </div>
+
+          <div class="flex flex-wrap items-center gap-3">
+            <div class="flex items-center gap-2 bg-surface-white px-4 py-2.5 rounded-full shadow-sm text-xs font-semibold cursor-pointer">
+              <span class="material-symbols-outlined text-secondary text-[18px]">calendar_month</span>
+              <span>01 Agt 2026 - 31 Agt 2026</span>
+              <span class="material-symbols-outlined text-text-muted text-[16px]">keyboard_arrow_down</span>
+            </div>
+            <button class="w-10 h-10 rounded-full bg-surface-white flex items-center justify-center text-text-secondary hover:text-primary shadow-sm" type="button" title="Filter Preset">
+              <span class="material-symbols-outlined text-[20px]">tune</span>
+            </button>
+            <button data-path="input-panen" class="flex items-center gap-1.5 bg-primary hover:bg-primary-container text-white px-5 py-2.5 rounded-full shadow-md text-xs font-semibold transition-all active:scale-95">
+              <span class="material-symbols-outlined text-[18px]">add_circle</span>
+              <span>+ Input Penjualan</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- 3-Column Bento Grid Layout -->
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
+          
+          <!-- LEFT COLUMN (4 Cols) -->
+          <div class="lg:col-span-4 flex flex-col gap-6">
+            <!-- Hero Card: Saldo Kas BUMDes -->
+            <div class="relative overflow-hidden rounded-2xl bg-primary-container text-white p-6 shadow-xl shadow-primary-container/20 flex flex-col justify-between min-h-[220px]">
+              <div class="absolute -right-12 -top-12 w-48 h-48 rounded-full bg-secondary opacity-30 blur-2xl pointer-events-none"></div>
+              <div class="relative z-10 flex items-start justify-between">
+                <div>
+                  <p class="text-xs text-secondary-container uppercase tracking-wider font-semibold">Saldo Kas Aktif BUMDes</p>
+                  <h2 id="dash-saldo-kas" class="font-stat-display text-3xl font-bold tracking-tight mt-1">Rp 48.950.000</h2>
+                </div>
+                <!-- Chip Graphic -->
+                <div class="w-10 h-8 rounded-md bg-gradient-to-tr from-amber-300 via-amber-200 to-yellow-400 p-0.5 shadow-inner flex flex-col justify-center items-center gap-0.5">
+                  <div class="w-full h-0.5 bg-amber-600/30"></div>
+                  <div class="w-3/4 h-2 rounded-sm border border-amber-600/40"></div>
+                  <div class="w-full h-0.5 bg-amber-600/30"></div>
+                </div>
+              </div>
+              <div class="relative z-10 pt-6 flex flex-col gap-1 border-t border-primary/40">
+                <div class="flex items-center justify-between text-xs text-secondary-container">
+                  <span>Rek BNI Nagari Manggis Jaya - Operasional</span>
+                  <span class="material-symbols-outlined text-[18px]">contactless</span>
+                </div>
+                <div class="flex items-center justify-between pt-1">
+                  <span class="font-mono text-xs text-white">•••• 8921 - Tahap II</span>
+                  <span class="inline-flex items-center gap-1 text-xs bg-white/10 text-secondary-container px-2 py-0.5 rounded-full">
+                    <span class="w-1.5 h-1.5 rounded-full bg-chart-mint-stroke animate-pulse"></span>
+                    Aktif &amp; Terverifikasi
+                  </span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Weekly Harvest Revenue Card -->
+            <div class="bg-surface-white rounded-2xl p-6 shadow-sm flex flex-col gap-2">
+              <div class="flex items-center justify-between">
+                <div class="flex items-center gap-2">
+                  <span class="w-8 h-8 rounded-full bg-status-lunas-bg text-status-lunas-fg flex items-center justify-center">
+                    <span class="material-symbols-outlined text-[18px]">trending_up</span>
+                  </span>
+                  <span class="text-xs font-semibold text-text-secondary">Pendapatan Panen Pekan Ini</span>
+                </div>
+                <span class="text-[11px] text-status-lunas-fg bg-status-lunas-bg px-2 py-0.5 rounded-full font-semibold">+14.2% vs mgg lalu</span>
+              </div>
+              <div class="flex items-baseline justify-between mt-1">
+                <h3 id="dash-pendapatan" class="font-headline-lg text-2xl font-bold text-text-primary tracking-tight">+Rp 18.420.000</h3>
+                <span class="text-xs text-text-muted">4.820 Kg Terjual</span>
+              </div>
+              <!-- Sparkline SVG -->
+              <div class="w-full pt-1">
+                <svg class="w-full h-10 overflow-visible" fill="none" preserveAspectRatio="none" viewBox="0 0 240 40">
+                  <defs>
+                    <linearGradient id="mintGrad" x1="0" x2="0" y1="0" y2="1">
+                      <stop offset="0%" stop-color="#52B788" stop-opacity="0.3"></stop>
+                      <stop offset="100%" stop-color="#52B788" stop-opacity="0.0"></stop>
+                    </linearGradient>
+                  </defs>
+                  <path d="M0 32 Q 40 28, 80 18 T 160 14 T 240 4" fill="none" stroke="#52B788" stroke-linecap="round" stroke-width="2.5"></path>
+                  <path d="M0 32 Q 40 28, 80 18 T 160 14 T 240 4 L 240 40 L 0 40 Z" fill="url(#mintGrad)"></path>
+                </svg>
+              </div>
+            </div>
+
+            <!-- Quick Action Shortcut Buttons -->
+            <div class="grid grid-cols-2 gap-3">
+              <button data-path="kas-operasional" class="p-3.5 rounded-2xl bg-surface-white hover:bg-surface-subtle transition-all shadow-sm flex items-center gap-3 text-left">
+                <div class="w-10 h-10 rounded-xl bg-status-ditolak-bg text-status-ditolak-fg flex items-center justify-center shrink-0">
+                  <span class="material-symbols-outlined text-[20px]">payments</span>
+                </div>
+                <div>
+                  <p class="font-bold text-xs text-text-primary">Catat Kas Keluar</p>
+                  <p class="text-[11px] text-text-muted">BBM, Logistik, Petik</p>
+                </div>
+              </button>
+              <button data-path="upah-tim" class="p-3.5 rounded-2xl bg-surface-white hover:bg-surface-subtle transition-all shadow-sm flex items-center gap-3 text-left">
+                <div class="w-10 h-10 rounded-xl bg-status-disetujui-bg text-status-disetujui-fg flex items-center justify-center shrink-0">
+                  <span class="material-symbols-outlined text-[20px]">groups</span>
+                </div>
+                <div>
+                  <p class="font-bold text-xs text-text-primary">Hitung Upah Tim</p>
+                  <p class="text-[11px] text-text-muted">Bagi Hasil Regu</p>
+                </div>
+              </button>
+            </div>
+          </div>
+
+          <!-- CENTER COLUMN (5 Cols) -->
+          <div class="lg:col-span-5 flex flex-col gap-6">
+            <!-- Tren Penjualan & Biaya (Chart Section) -->
+            <div class="bg-surface-white rounded-2xl p-6 shadow-sm flex flex-col gap-4">
+              <div class="flex items-center justify-between">
+                <div>
+                  <h3 class="font-headline-sm font-bold text-primary text-base">Tren Penjualan &amp; Biaya</h3>
+                  <p class="text-xs text-text-muted">Komparasi Omzet Kotor vs Pengeluaran Lapangan</p>
+                </div>
+                <div class="bg-surface-subtle p-1 rounded-full flex text-xs font-semibold">
+                  <button class="px-3 py-1 rounded-full bg-primary text-white shadow-sm">Bulanan</button>
+                  <button class="px-3 py-1 rounded-full text-text-secondary hover:text-text-primary">Musiman</button>
+                </div>
+              </div>
+
+              <!-- Bar Chart Simulation -->
+              <div class="pt-4 flex flex-col gap-3">
+                <div class="flex items-center justify-between text-xs font-semibold text-text-muted">
+                  <span class="text-status-lunas-fg font-bold">● Puncak Panen: April 2026</span>
+                  <span class="text-secondary font-mono">+17.5% Rebound</span>
+                </div>
+
+                <!-- Vector Bars -->
+                <div class="h-44 w-full flex items-end justify-between gap-3 pt-6 pb-2 border-b border-border-subtle">
+                  <!-- Jan -->
+                  <div class="flex-1 flex flex-col items-center gap-1.5 h-full justify-end">
+                    <div class="w-full flex items-end justify-center gap-1 h-full">
+                      <div class="w-3.5 bg-primary rounded-t-md" style="height: 40%;"></div>
+                      <div class="w-3.5 bg-chart-mint-stroke/40 rounded-t-md" style="height: 25%;"></div>
+                    </div>
+                    <span class="text-[11px] text-text-muted font-mono">Jan</span>
+                  </div>
+                  <!-- Feb -->
+                  <div class="flex-1 flex flex-col items-center gap-1.5 h-full justify-end">
+                    <div class="w-full flex items-end justify-center gap-1 h-full">
+                      <div class="w-3.5 bg-primary rounded-t-md" style="height: 55%;"></div>
+                      <div class="w-3.5 bg-chart-mint-stroke/40 rounded-t-md" style="height: 35%;"></div>
+                    </div>
+                    <span class="text-[11px] text-text-muted font-mono">Feb</span>
+                  </div>
+                  <!-- Mar -->
+                  <div class="flex-1 flex flex-col items-center gap-1.5 h-full justify-end">
+                    <div class="w-full flex items-end justify-center gap-1 h-full">
+                      <div class="w-3.5 bg-primary rounded-t-md" style="height: 70%;"></div>
+                      <div class="w-3.5 bg-chart-mint-stroke/40 rounded-t-md" style="height: 40%;"></div>
+                    </div>
+                    <span class="text-[11px] text-text-muted font-mono">Mar</span>
+                  </div>
+                  <!-- Apr (Peak) -->
+                  <div class="flex-1 flex flex-col items-center gap-1.5 h-full justify-end relative">
+                    <span class="absolute -top-4 font-mono text-[10px] font-bold text-primary bg-surface-subtle px-1 rounded">Rp 42.5 Jt</span>
+                    <div class="w-full flex items-end justify-center gap-1 h-full">
+                      <div class="w-3.5 bg-secondary rounded-t-md shadow-sm" style="height: 92%;"></div>
+                      <div class="w-3.5 bg-chart-mint-stroke/50 rounded-t-md" style="height: 50%;"></div>
+                    </div>
+                    <span class="text-[11px] text-primary font-bold font-mono">Apr</span>
+                  </div>
+                  <!-- Mei -->
+                  <div class="flex-1 flex flex-col items-center gap-1.5 h-full justify-end">
+                    <div class="w-full flex items-end justify-center gap-1 h-full">
+                      <div class="w-3.5 bg-primary rounded-t-md" style="height: 65%;"></div>
+                      <div class="w-3.5 bg-chart-mint-stroke/40 rounded-t-md" style="height: 38%;"></div>
+                    </div>
+                    <span class="text-[11px] text-text-muted font-mono">Mei</span>
+                  </div>
+                  <!-- Jun -->
+                  <div class="flex-1 flex flex-col items-center gap-1.5 h-full justify-end">
+                    <div class="w-full flex items-end justify-center gap-1 h-full">
+                      <div class="w-3.5 bg-primary rounded-t-md" style="height: 60%;"></div>
+                      <div class="w-3.5 bg-chart-mint-stroke/40 rounded-t-md" style="height: 35%;"></div>
+                    </div>
+                    <span class="text-[11px] text-text-muted font-mono">Jun</span>
+                  </div>
+                </div>
+
+                <!-- Legend -->
+                <div class="flex items-center justify-center gap-6 pt-1 text-xs text-text-secondary">
+                  <div class="flex items-center gap-1.5">
+                    <span class="w-3 h-3 rounded-sm bg-primary"></span>
+                    <span>Penjualan Manggis (Omzet)</span>
+                  </div>
+                  <div class="flex items-center gap-1.5">
+                    <span class="w-3 h-3 rounded-sm bg-chart-mint-stroke/40"></span>
+                    <span>Biaya Operasional &amp; Upah</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Koordinator Attention Callout Banner -->
+            <div class="bg-amber-50/80 border border-amber-200/80 rounded-2xl p-4 flex items-center justify-between gap-4">
+              <div class="flex items-center gap-3">
+                <div class="w-10 h-10 rounded-xl bg-amber-500 text-white flex items-center justify-center shrink-0 shadow-sm">
+                  <span class="material-symbols-outlined text-[20px]">assignment_late</span>
+                </div>
+                <div>
+                  <p class="font-bold text-xs text-amber-900">Perhatian Koordinator • 3 Nota Menunggu Approval</p>
+                  <p class="text-[11px] text-amber-800">Nota timbang Blok Cikadu &amp; faktur solar belum divalidasi Bendahara.</p>
+                </div>
+              </div>
+              <button data-path="audit-approval" class="px-3.5 py-1.5 rounded-full bg-white text-xs font-bold text-amber-900 shadow-sm hover:bg-amber-100 transition-colors shrink-0">
+                Audit Nota &rarr;
+              </button>
+            </div>
+          </div>
+
+          <!-- RIGHT COLUMN (3 Cols) -->
+          <div class="lg:col-span-3 flex flex-col gap-6">
+            <!-- Total Akumulasi Panen -->
+            <div class="bg-surface-white rounded-2xl p-6 shadow-sm flex flex-col gap-3">
+              <div class="flex items-center justify-between text-text-secondary">
+                <span class="text-xs font-semibold">Total Akumulasi Panen</span>
+                <span class="material-symbols-outlined text-[18px] text-text-muted">scale</span>
+              </div>
+              <div>
+                <h3 id="dash-volume-kg" class="font-stat-display text-2xl font-bold text-text-primary font-mono">14.850 kg</h3>
+                <p class="text-xs text-text-muted mt-0.5">Target Musim: 20.000 kg (74.2%)</p>
+              </div>
+              <!-- Curve Sparkline -->
+              <div class="w-full pt-1">
+                <svg class="w-full h-8 overflow-visible" fill="none" viewBox="0 0 200 30">
+                  <path d="M0 25 C 50 25, 100 15, 200 4" stroke="#52B788" stroke-width="2.5" stroke-linecap="round"></path>
+                </svg>
+              </div>
+              <div class="grid grid-cols-2 gap-2 pt-2 border-t border-border-subtle">
+                <button data-path="input-panen" class="px-3 py-1.5 rounded-xl bg-surface-subtle hover:bg-surface-container text-xs font-semibold text-text-primary transition-all text-center">
+                  &uarr; Setor Kas
+                </button>
+                <button data-path="upah-tim" class="px-3 py-1.5 rounded-xl bg-surface-subtle hover:bg-surface-container text-xs font-semibold text-text-primary transition-all text-center">
+                  &darr; Cairkan Upah
+                </button>
+              </div>
+            </div>
+
+            <!-- Efisiensi Biaya Petik -->
+            <div class="bg-surface-white rounded-2xl p-6 shadow-sm flex flex-col gap-1">
+              <div class="flex items-center justify-between text-xs">
+                <span class="text-text-muted font-semibold uppercase">Efisiensi Biaya Petik</span>
+                <span class="text-status-lunas-fg font-bold">+12.8%</span>
+              </div>
+              <p id="dash-efisiensi-upah" class="font-stat-display text-2xl font-bold text-primary font-mono mt-1">Rp 2.450 / kg</p>
+              <p class="text-xs text-text-muted">Batas Maks: Rp 2.800/kg</p>
+            </div>
+
+            <!-- Tim Petik Aktif Avatars Roll -->
+            <div class="bg-surface-white rounded-2xl p-6 shadow-sm flex flex-col gap-3">
+              <div class="flex items-center justify-between">
+                <span class="text-xs font-semibold text-text-secondary">Tim Petik Aktif</span>
+                <span class="text-[11px] text-status-lunas-fg bg-status-lunas-bg px-2 py-0.5 rounded-full font-bold">9 Orang Hari Ini</span>
+              </div>
+              <div class="flex items-center -space-x-2 py-1">
+                <div class="w-8 h-8 rounded-full bg-primary-container text-white font-bold text-xs flex items-center justify-center ring-2 ring-white">WA</div>
+                <div class="w-8 h-8 rounded-full bg-secondary text-white font-bold text-xs flex items-center justify-center ring-2 ring-white">JS</div>
+                <div class="w-8 h-8 rounded-full bg-emerald-700 text-white font-bold text-xs flex items-center justify-center ring-2 ring-white">RN</div>
+                <div class="w-8 h-8 rounded-full bg-teal-800 text-white font-bold text-xs flex items-center justify-center ring-2 ring-white">DM</div>
+                <div class="w-8 h-8 rounded-full bg-surface-subtle text-text-secondary font-bold text-xs flex items-center justify-center ring-2 ring-white">+5</div>
+              </div>
+              <button data-path="master-data" class="text-xs text-primary font-semibold hover:underline text-left">
+                Kelola Roster Tim &rarr;
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- BOTTOM SECTION: Riwayat Transaksi Penjualan & Setoran Terbaru -->
+        <div class="mt-8 bg-surface-white rounded-2xl p-6 shadow-sm flex flex-col gap-4">
+          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+            <div>
+              <h3 class="font-headline-sm font-bold text-primary text-base">Riwayat Transaksi Penjualan &amp; Setoran Terbaru</h3>
+              <p class="text-xs text-text-muted">Daftar transaksi timbang muat panen dari kebun ke mitra pengepul ekspor</p>
+            </div>
+            <div class="flex items-center gap-2">
+              <button class="px-3 py-1.5 rounded-full bg-surface-subtle text-xs font-semibold text-text-secondary flex items-center gap-1">
+                <span class="material-symbols-outlined text-[16px]">filter_list</span>
+                <span>Semua Status</span>
+              </button>
+              <button onclick="App.handleEksporExcel()" class="px-4 py-1.5 rounded-full bg-primary text-white text-xs font-semibold shadow-sm hover:bg-primary-container transition-all flex items-center gap-1.5">
+                <span class="material-symbols-outlined text-[16px]">download</span>
+                <span>Ekspor Excel</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- Table -->
+          <div class="overflow-x-auto">
+            <table class="w-full text-left font-body-sm text-xs">
+              <thead class="bg-surface-subtle text-text-secondary uppercase font-semibold text-[11px] tracking-wider">
+                <tr>
+                  <th class="py-3 px-3">No / Blok Kebun</th>
+                  <th class="py-3 px-3">Pengepul &amp; Tanggal</th>
+                  <th class="py-3 px-3 text-right">Berat Bersih (kg)</th>
+                  <th class="py-3 px-3 text-right">Total Nilai Jual</th>
+                  <th class="py-3 px-3 text-right">Nominal Disetor</th>
+                  <th class="py-3 px-3 text-right">Selisih</th>
+                  <th class="py-3 px-3 text-center">Status</th>
+                  <th class="py-3 px-3 text-right">Aksi</th>
+                </tr>
+              </thead>
+              <tbody id="dash-tbody-penjualan">
+                <!-- Injected via JavaScript -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- ===================================================================== -->
+      <!-- VIEW 2: INPUT PENJUALAN & REKONSILIASI SETORAN (SCREEN 3)             -->
+      <!-- ===================================================================== -->
+      <div id="view-input-panen" class="view-panel px-4 md:px-8 py-6 max-w-[1400px] mx-auto w-full">
+        <!-- Header Breadcrumb -->
+        <div class="flex flex-col md:flex-row md:items-center justify-between gap-3 mb-6">
+          <div>
+            <div class="flex items-center gap-2 text-xs text-text-muted mb-1">
+              <span>Panen &amp; Logistik</span>
+              <span>&rsaquo;</span>
+              <span>Fasilitas Penjualan</span>
+              <span>&rsaquo;</span>
+              <span class="text-primary font-semibold">Formulir Rekonsiliasi</span>
+            </div>
+            <h1 class="font-headline-lg text-2xl font-bold text-primary">Input Penjualan Hasil Panen &amp; Rekonsiliasi Setoran</h1>
+            <p class="text-xs text-text-secondary">Catat penimbangan hasil panen ke pengepul, setoran bendahara, dan unggah bukti nota timbang fisik.</p>
+          </div>
+          <div class="flex items-center gap-2 bg-surface-white px-3 py-1 rounded-full shadow-sm text-xs text-secondary font-semibold">
+            <span class="w-2 h-2 rounded-full bg-chart-mint-stroke animate-pulse"></span>
+            <span>Audit Trail: Aktif (v2.1)</span>
+          </div>
+        </div>
+
+        <form id="form-input-panen" class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
+          <!-- LEFT FORM SECTION (7 Cols) -->
+          <div class="lg:col-span-7 bg-surface-white rounded-2xl p-6 shadow-sm flex flex-col gap-5">
+            <div class="flex items-center justify-between pb-3 border-b border-border-subtle">
+              <div class="flex items-center gap-2">
+                <span class="material-symbols-outlined text-secondary text-[22px]">receipt_long</span>
+                <span class="font-headline-sm font-bold text-primary text-sm">Data Timbangan &amp; Transaksi Pengepul</span>
+              </div>
+              <span class="text-xs bg-surface-subtle text-text-muted px-2.5 py-0.5 rounded-full font-mono">Seksi 1/2</span>
+            </div>
+
+            <!-- Form Fields Grid -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <!-- Tanggal -->
+              <div class="flex flex-col gap-1.5">
+                <label class="text-xs font-semibold text-text-primary flex items-center gap-1">
+                  <span>Tanggal Transaksi Panen</span>
+                  <span class="text-status-ditolak-fg">*</span>
+                </label>
+                <input id="input-panen-tanggal" type="date" required class="h-11 px-3.5 bg-surface-subtle rounded-xl text-xs text-text-primary focus:bg-white focus:outline-none border border-border-subtle/50"/>
+              </div>
+
+              <!-- Blok Kebun -->
+              <div class="flex flex-col gap-1.5">
+                <label class="text-xs font-semibold text-text-primary flex items-center gap-1">
+                  <span>Blok Kebun Asal</span>
+                  <span class="text-status-ditolak-fg">*</span>
+                </label>
+                <select id="input-panen-blok" class="h-11 px-3.5 bg-surface-subtle rounded-xl text-xs text-text-primary focus:bg-white focus:outline-none border border-border-subtle/50">
+                  <option value="Blok A - Pasir Wangi (Manggis Super 1)">Blok A - Pasir Wangi (Manggis Super 1)</option>
+                  <option value="Blok B - Cikadu Luhur (Manggis Standar)">Blok B - Cikadu Luhur (Manggis Standar)</option>
+                  <option value="Blok C - Lembah Hijau (Organik Export)">Blok C - Lembah Hijau (Organik Export)</option>
+                </select>
+              </div>
+
+              <!-- Pengepul -->
+              <div class="sm:col-span-2 flex flex-col gap-1.5">
+                <label class="text-xs font-semibold text-text-primary flex items-center gap-1">
+                  <span>Pengepul / Pembeli Terdaftar</span>
+                  <span class="text-status-ditolak-fg">*</span>
+                </label>
+                <select id="input-panen-pengepul" class="h-11 px-3.5 bg-surface-subtle rounded-xl text-xs text-text-primary focus:bg-white focus:outline-none border border-border-subtle/50">
+                  <option value="CV Manggis Buana Raya - Mitra Utama Ekspor (Vendor ID: V-0881)">CV Manggis Buana Raya - Mitra Utama Ekspor (Vendor ID: V-0881)</option>
+                  <option value="UD Berkah Tani Mandiri - Pasar Induk Regional (Vendor ID: V-0294)">UD Berkah Tani Mandiri - Pasar Induk Regional (Vendor ID: V-0294)</option>
+                  <option value="PT Indo Eksportir Buah - Hub Tanjung Priok (Vendor ID: V-1042)">PT Indo Eksportir Buah - Hub Tanjung Priok (Vendor ID: V-1042)</option>
+                </select>
+              </div>
+
+              <!-- Berat Bersih -->
+              <div class="flex flex-col gap-1.5">
+                <label class="text-xs font-semibold text-text-primary flex items-center justify-between">
+                  <span>Berat Bersih Timbang (kg) <span class="text-status-ditolak-fg">*</span></span>
+                  <span class="text-[11px] text-text-muted">Netto Sortir</span>
+                </label>
+                <div class="relative flex items-center">
+                  <input id="input-panen-berat" type="number" required value="1250" class="w-full h-11 pl-3.5 pr-12 bg-surface-subtle rounded-xl font-bold font-mono text-sm text-text-primary focus:bg-white focus:outline-none border border-border-subtle/50"/>
+                  <span class="absolute right-3 text-xs text-text-muted font-bold">kg</span>
+                </div>
+              </div>
+
+              <!-- Harga Kontrak per kg -->
+              <div class="flex flex-col gap-1.5">
+                <label class="text-xs font-semibold text-text-primary flex items-center justify-between">
+                  <span>Harga Kontrak / kg <span class="text-status-ditolak-fg">*</span></span>
+                  <span class="text-[11px] text-status-lunas-fg font-semibold">Grade Super A</span>
+                </label>
+                <div class="relative flex items-center">
+                  <span class="absolute left-3 text-xs text-text-muted font-bold">Rp</span>
+                  <input id="input-panen-harga" type="number" required value="28000" class="w-full h-11 pl-10 pr-3.5 bg-surface-subtle rounded-xl font-bold font-mono text-sm text-text-primary focus:bg-white focus:outline-none border border-border-subtle/50"/>
+                </div>
+              </div>
+            </div>
+
+            <!-- Highlight Box: Perhitungan Otomatis Nota Jual -->
+            <div class="bg-primary-container text-white rounded-xl p-4 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 shadow-md">
+              <div class="flex items-center gap-3">
+                <span class="material-symbols-outlined text-secondary-container text-[24px]">receipt</span>
+                <div>
+                  <p class="text-xs uppercase tracking-wider text-secondary-container font-semibold">Perhitungan Otomatis Nota Jual</p>
+                  <p class="text-[11px] opacity-80">Berat Bersih &times; Harga Kontrak</p>
+                </div>
+              </div>
+              <div class="text-right">
+                <span class="text-[10px] uppercase text-secondary-container block">Total Nilai Panen</span>
+                <span id="input-panen-total-display" class="font-stat-display text-2xl font-bold font-mono">Rp 35.000.000</span>
+              </div>
+            </div>
+
+            <!-- Nominal Uang Fisik Disetor -->
+            <div class="flex flex-col gap-1.5">
+              <label class="text-xs font-semibold text-text-primary flex items-center justify-between">
+                <span>Nominal Uang Fisik Disetor ke Kas Bendahara <span class="text-status-ditolak-fg">*</span></span>
+                <span class="text-[11px] text-secondary font-semibold">Dicek Kasir Desa</span>
+              </label>
+              <div class="relative flex items-center">
+                <span class="absolute left-3.5 text-xs text-text-muted font-bold">Rp</span>
+                <input id="input-panen-setor" type="number" required value="34000000" class="w-full h-12 pl-11 pr-4 bg-surface-subtle rounded-xl font-bold font-mono text-base text-text-primary focus:bg-white focus:outline-none border border-border-subtle/50"/>
+              </div>
+              <p class="text-[11px] text-text-muted">Masukkan jumlah uang kontan atau bukti transfer kliring yang diserahkan pengepul ke bendahara desa.</p>
+            </div>
+
+            <!-- Bukti Fisik Slip Timbangan / Nota Pengepul -->
+            <div class="flex flex-col gap-2">
+              <label class="text-xs font-semibold text-text-primary">Bukti Fisik Slip Timbangan / Nota Pengepul</label>
+              <div class="border-2 border-dashed border-border-subtle hover:border-primary/50 rounded-2xl p-5 flex flex-col items-center justify-center gap-2 cursor-pointer transition-colors bg-surface-subtle/40">
+                <span class="material-symbols-outlined text-[32px] text-text-muted">add_a_photo</span>
+                <p class="text-xs font-semibold text-text-primary">Tarik foto nota ke sini atau klik ambil gambar</p>
+                <p class="text-[11px] text-text-muted">Format JPG, PNG, PDF (Maks 10MB) • Mendukung OCR cepat</p>
+                <div class="flex items-center gap-2 mt-2">
+                  <button type="button" class="px-3.5 py-1.5 rounded-lg bg-surface-white text-xs font-semibold text-text-secondary shadow-sm hover:text-primary">
+                    Pilih Berkas
+                  </button>
+                  <button type="button" class="px-3.5 py-1.5 rounded-lg bg-surface-white text-xs font-semibold text-text-secondary shadow-sm hover:text-primary">
+                    Buka Kamera
+                  </button>
+                </div>
+              </div>
+              <!-- Simulated Attachment Tag -->
+              <div class="p-2.5 rounded-xl bg-surface-subtle flex items-center justify-between text-xs">
+                <div class="flex items-center gap-2">
+                  <span class="material-symbols-outlined text-status-lunas-fg text-[18px]">verified</span>
+                  <span class="font-mono font-medium">NOTA-PNP-2026-084.jpg</span>
+                  <span class="text-text-muted font-mono">(2.4 MB)</span>
+                </div>
+                <span class="text-[11px] text-status-lunas-fg bg-status-lunas-bg px-2 py-0.5 rounded-full font-semibold">Terverifikasi OCR (99.4%)</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- RIGHT RECONCILIATION SECTION (5 Cols) -->
+          <div class="lg:col-span-5 flex flex-col gap-6">
+            <!-- Live Reconciliation Card -->
+            <div class="bg-surface-white rounded-2xl p-6 shadow-sm flex flex-col gap-4">
+              <div class="flex items-center justify-between">
+                <span class="font-headline-sm font-bold text-primary text-sm flex items-center gap-1.5">
+                  <span class="material-symbols-outlined text-[18px] text-secondary">balance</span>
+                  <span>Kalkulasi Rekonsiliasi Real-Time</span>
+                </span>
+                <span class="text-[11px] text-status-lunas-fg bg-status-lunas-bg px-2 py-0.5 rounded-full font-mono">Live Sync</span>
+              </div>
+
+              <!-- Dynamic Status Box -->
+              <div id="recon-status-box" class="p-4 rounded-xl bg-status-selisih-bg text-status-selisih-fg flex flex-col gap-1 border border-status-selisih-fg/20">
+                <div class="flex items-center gap-2 font-bold font-headline-sm text-xs">
+                  <span class="material-symbols-outlined text-[18px]">warning</span>
+                  <span>Status: SELISIH (Perlu Investigasi)</span>
+                </div>
+                <p class="text-[11px] opacity-90 leading-tight">Uang tunai yang disetor ke bendahara lebih rendah dari total nilai faktur timbang pengepul.</p>
+              </div>
+
+              <div class="flex flex-col gap-3 py-2 border-y border-border-subtle text-xs">
+                <div class="flex items-center justify-between">
+                  <span class="text-text-secondary">Total Nilai Jual Panen</span>
+                  <span id="recon-total-jual" class="font-mono font-bold text-text-primary text-sm">Rp 35.000.000</span>
+                </div>
+                <div class="flex items-center justify-between">
+                  <span class="text-text-secondary">Uang Disetor ke Bendahara</span>
+                  <span id="recon-disetor" class="font-mono font-bold text-text-primary text-sm">Rp 34.000.000</span>
+                </div>
+                <div class="flex items-center justify-between pt-1 border-t border-border-subtle/50">
+                  <span class="text-text-secondary font-semibold">Selisih Setoran</span>
+                  <div class="text-right">
+                    <span id="recon-selisih" class="font-stat-display text-lg font-bold text-status-selisih-fg font-mono">-Rp 1.000.000</span>
+                    <span class="text-[10px] text-text-muted block">Terdapat selisih kurang setoran</span>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Alasan Selisih Textarea -->
+              <div id="recon-alasan-container" class="flex flex-col gap-1.5">
+                <label class="text-xs font-semibold text-text-primary flex items-center justify-between">
+                  <span>Alasan / Keterangan Selisih Transaksi</span>
+                  <span class="text-status-ditolak-fg font-semibold">Wajib Diisi</span>
+                </label>
+                <textarea id="input-panen-alasan" rows="3" class="w-full p-3 bg-surface-subtle rounded-xl text-xs text-text-primary focus:bg-white focus:outline-none border border-border-subtle/50" placeholder="Contoh: Potongan susut timbangan & retur sortiran grade B sebanyak 35 kg oleh pengepul pada saat bongkar muat.">Potongan susut timbangan & retur sortiran grade B sebanyak 35 kg oleh pengepul pada saat bongkar muat.</textarea>
+                <p class="text-[10px] text-text-muted">Keterangan ini akan langsung dicatat pada berkas audit panen dan dikonfirmasi ke bendahara.</p>
+              </div>
+
+              <!-- Validation Checklist -->
+              <div class="p-3 rounded-xl bg-surface-subtle flex flex-col gap-2 text-xs">
+                <span class="font-bold text-text-secondary text-[11px] uppercase tracking-wider">Syarat Validasi Kelayakan Berkas</span>
+                <label class="flex items-center gap-2 text-text-secondary">
+                  <span class="material-symbols-outlined text-status-lunas-fg text-[16px]">check_circle</span>
+                  <span>Berat &amp; harga terkonfirmasi berupa angka positif</span>
+                </label>
+                <label class="flex items-center gap-2 text-text-secondary">
+                  <span class="material-symbols-outlined text-status-lunas-fg text-[16px]">check_circle</span>
+                  <span>Tanggal transaksi berada dalam musim panen aktif</span>
+                </label>
+                <label class="flex items-center gap-2 text-text-secondary">
+                  <span class="material-symbols-outlined text-status-lunas-fg text-[16px]">check_circle</span>
+                  <span>Blok Kebun &amp; Pengepul sesuai master terdaftar</span>
+                </label>
+              </div>
+
+              <!-- Action Buttons -->
+              <div class="flex flex-col gap-2 pt-2">
+                <button type="submit" class="w-full py-3 rounded-xl bg-primary hover:bg-primary-container text-white text-xs font-bold shadow-md transition-all active:scale-[0.99] flex items-center justify-center gap-2">
+                  <span class="material-symbols-outlined text-[18px]">send</span>
+                  <span>&triangleright; Simpan Transaksi &amp; Ajukan Verifikasi</span>
+                </button>
+                <div class="grid grid-cols-2 gap-2">
+                  <button type="button" onclick="App.showToast('Draft transaksi disimpan secara lokal.', 'info')" class="py-2.5 rounded-xl bg-surface-subtle hover:bg-surface-container text-xs font-semibold text-text-primary transition-all">
+                    Simpan Draft
+                  </button>
+                  <button type="button" data-path="dashboard" class="py-2.5 rounded-xl bg-surface-subtle hover:bg-surface-container text-xs font-semibold text-text-secondary transition-all">
+                    Batal
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </form>
+
+        <!-- 3 Penjualan Terakhir yang Baru Diinput Table -->
+        <div class="mt-8 bg-surface-white rounded-2xl p-6 shadow-sm flex flex-col gap-4">
+          <div class="flex items-center justify-between">
+            <div>
+              <h3 class="font-headline-sm font-bold text-primary text-sm">3 Penjualan Terakhir yang Baru Diinput</h3>
+              <p class="text-xs text-text-muted">Daftar transaksi penjualan hari ini yang menunggu atau telah diverifikasi bendahara.</p>
+            </div>
+            <button data-path="dashboard" class="text-xs font-bold text-primary hover:underline">
+              Lihat Semua Riwayat &rarr;
+            </button>
+          </div>
+
+          <div class="overflow-x-auto">
+            <table class="w-full text-left font-body-sm text-xs">
+              <thead class="bg-surface-subtle text-text-secondary uppercase font-semibold text-[11px]">
+                <tr>
+                  <th class="py-2.5 px-3">No. Faktur &amp; Tanggal</th>
+                  <th class="py-2.5 px-3">Blok Kebun &amp; Mitra</th>
+                  <th class="py-2.5 px-3 text-right">Volume (kg)</th>
+                  <th class="py-2.5 px-3 text-right">Nilai Jual</th>
+                  <th class="py-2.5 px-3 text-right">Nominal Setor</th>
+                  <th class="py-2.5 px-3 text-center">Status Rekonsiliasi</th>
+                  <th class="py-2.5 px-3 text-right">Aksi</th>
+                </tr>
+              </thead>
+              <tbody id="recent-panen-tbody">
+                <!-- Injected via JS -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- ===================================================================== -->
+      <!-- VIEW 3: BUKU KAS OPERASIONAL & REKAP UPAH TIM (SCREEN 1)             -->
+      <!-- ===================================================================== -->
+      <div id="view-kas-operasional" class="view-panel px-4 md:px-8 py-6 max-w-[1600px] mx-auto w-full">
+        <!-- Header -->
+        <div class="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-6">
+          <div>
+            <div class="flex items-center gap-2 text-xs text-text-muted mb-1">
+              <span>Keuangan Desa</span>
+              <span>&rsaquo;</span>
+              <span>Kas &amp; Upah Kerja</span>
+              <span>&rsaquo;</span>
+              <span class="text-primary font-semibold">Periode Agustus 2024</span>
+            </div>
+            <h1 class="font-headline-lg text-2xl md:text-3xl font-bold text-primary tracking-tight">Buku Kas Operasional &amp; Rekapitulasi Upah Tim</h1>
+            <p class="text-xs text-text-secondary">Kelola arus kas keluar, operasional panen, serta perhitungan upah skema harian dan borongan per kg.</p>
+          </div>
+
+          <div class="flex items-center gap-2.5 flex-wrap">
+            <div class="flex items-center gap-2 bg-surface-white px-4 py-2 rounded-full shadow-sm text-xs font-semibold">
+              <span class="material-symbols-outlined text-secondary text-[18px]">calendar_month</span>
+              <span>Minggu ke-3, Panen Raya</span>
+            </div>
+            <button onclick="App.handleEksporExcel()" class="px-4 py-2 rounded-full bg-surface-white text-xs font-semibold text-text-primary shadow-sm hover:bg-surface-subtle transition-all flex items-center gap-1.5">
+              <span class="material-symbols-outlined text-[16px]">download</span>
+              <span>Ekspor Rekap CSV</span>
+            </button>
+            <button onclick="App.showToast('Fitur pencatatan kas operasional siap.', 'info')" class="flex items-center gap-1.5 bg-primary hover:bg-primary-container text-white px-5 py-2 rounded-full shadow-md text-xs font-semibold transition-all">
+              <span class="material-symbols-outlined text-[18px]">add_circle</span>
+              <span>+ Catat Pengeluaran Baru</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- 3 Top Metric Cards -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
+          <!-- Card 1: Total Pemasukan Kas -->
+          <div class="bg-surface-white rounded-2xl p-6 shadow-sm flex flex-col justify-between">
+            <div class="flex items-start justify-between">
+              <div>
+                <span class="text-xs text-text-muted uppercase tracking-wider font-semibold">Debit Masuk Akumulatif</span>
+                <p class="text-sm font-semibold text-text-secondary mt-1">Total Pemasukan Kas</p>
+              </div>
+              <div class="w-10 h-10 rounded-full bg-status-lunas-bg text-status-lunas-fg flex items-center justify-center">
+                <span class="material-symbols-outlined text-[20px]">savings</span>
+              </div>
+            </div>
+            <div class="mt-4">
+              <div id="kas-total-pemasukan" class="font-stat-display text-3xl font-bold text-text-primary font-mono tracking-tight">Rp 64.200.000</div>
+              <p class="text-xs text-status-lunas-fg font-semibold mt-1">&uarr; +18.4% dari termin penjualan export #04</p>
+            </div>
+            <div class="mt-4 pt-3 border-t border-border-subtle flex items-center justify-between text-xs text-text-muted">
+              <span>Rek. BUMDes Mandiri</span>
+              <span>12 Transaksi Masuk</span>
+            </div>
+          </div>
+
+          <!-- Card 2: Total Pengeluaran Ops -->
+          <div class="bg-surface-white rounded-2xl p-6 shadow-sm flex flex-col justify-between">
+            <div class="flex items-start justify-between">
+              <div>
+                <span class="text-xs text-text-muted uppercase tracking-wider font-semibold">Kredit Terpakai</span>
+                <p class="text-sm font-semibold text-text-secondary mt-1">Total Pengeluaran Ops</p>
+              </div>
+              <div class="w-10 h-10 rounded-full bg-status-ditolak-bg text-status-ditolak-fg flex items-center justify-center">
+                <span class="material-symbols-outlined text-[20px]">shopping_cart_checkout</span>
+              </div>
+            </div>
+            <div class="mt-4">
+              <div id="kas-total-pengeluaran" class="font-stat-display text-3xl font-bold text-status-ditolak-fg font-mono tracking-tight">Rp 15.250.000</div>
+              <p class="text-xs text-text-muted mt-1">&bull; Termasuk alokasi upah tim petik Rp 8.000.000</p>
+            </div>
+            <div class="mt-4 pt-3 border-t border-border-subtle flex items-center justify-between text-xs text-text-muted">
+              <span>Pagu Anggaran Sisa: 68%</span>
+              <span class="text-status-tertunda-fg font-bold">2 Menunggu Audit</span>
+            </div>
+          </div>
+
+          <!-- Card 3: Saldo Bersih Tersedia -->
+          <div class="bg-primary-container text-white rounded-2xl p-6 shadow-md flex flex-col justify-between relative overflow-hidden">
+            <div class="absolute -right-8 -bottom-8 w-40 h-40 bg-secondary/30 rounded-full blur-2xl pointer-events-none"></div>
+            <div class="flex items-start justify-between relative z-10">
+              <div>
+                <span class="text-xs text-secondary-container uppercase tracking-wider font-semibold">Kas Riil di Bendahara</span>
+                <p class="text-sm font-semibold text-white mt-1">Saldo Bersih Tersedia</p>
+              </div>
+              <div class="w-10 h-10 rounded-full bg-secondary flex items-center justify-center text-white">
+                <span class="material-symbols-outlined text-[20px]">account_balance_wallet</span>
+              </div>
+            </div>
+            <div class="mt-4 relative z-10">
+              <div id="kas-saldo-bersih" class="font-stat-display text-3xl font-bold text-white font-mono tracking-tight">Rp 48.950.000</div>
+              <div class="inline-flex items-center gap-1.5 mt-2 px-2.5 py-0.5 rounded-full bg-white/10 text-secondary-container text-xs font-semibold">
+                <span class="material-symbols-outlined text-[14px]">check_circle</span>
+                <span>Kas Sehat &amp; Terverifikasi</span>
+              </div>
+            </div>
+            <div class="mt-4 pt-3 border-t border-primary/40 flex items-center justify-between text-xs text-secondary-container relative z-10">
+              <span>Selisih Fisik Kas: <strong class="text-white">Rp 0 (Klop)</strong></span>
+              <button onclick="App.showToast('Berita acara fisik kas ditandatangani Klop Rp 0.', 'info')" class="underline hover:text-white">Lihat Berita Acara</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Split View: 65% Kas Operasional / 35% Upah Tim Generator -->
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
+          <!-- LEFT SECTION: Jurnal Kas (8 Cols) -->
+          <div class="lg:col-span-8 flex flex-col gap-4">
+            <div class="bg-surface-white rounded-2xl p-4 shadow-sm flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+              <div class="flex items-center gap-2">
+                <span class="material-symbols-outlined text-[20px] text-secondary">receipt_long</span>
+                <h3 class="font-headline-sm font-bold text-primary text-sm">Jurnal Kas Operasional</h3>
+                <span class="bg-surface-subtle text-text-secondary px-2.5 py-0.5 rounded-full text-xs font-mono">28 Bukti Transaksi</span>
+              </div>
+              <div class="flex items-center gap-2">
+                <select class="bg-surface-subtle text-text-primary text-xs font-semibold px-3 py-1.5 rounded-xl border border-border-subtle/50">
+                  <option>Semua Kategori</option>
+                  <option>Upah Petik</option>
+                  <option>Konsumsi</option>
+                  <option>Transport</option>
+                  <option>Perlengkapan</option>
+                </select>
+                <select class="bg-surface-subtle text-text-primary text-xs font-semibold px-3 py-1.5 rounded-xl border border-border-subtle/50">
+                  <option>Semua Status</option>
+                  <option>Disetujui</option>
+                  <option>Menunggu</option>
+                </select>
+              </div>
+            </div>
+
+            <!-- Table -->
+            <div class="bg-surface-white rounded-2xl p-4 shadow-sm overflow-x-auto">
+              <table class="w-full text-left font-body-sm text-xs">
+                <thead class="bg-surface-subtle text-text-secondary uppercase font-semibold text-[11px]">
+                  <tr>
+                    <th class="py-3 px-3">ID &amp; Tanggal</th>
+                    <th class="py-3 px-3">Kategori</th>
+                    <th class="py-3 px-3">Keterangan / PIC</th>
+                    <th class="py-3 px-3 text-right">Debit / Kredit</th>
+                    <th class="py-3 px-3 text-center">Status</th>
+                    <th class="py-3 px-3 text-right">Bukti</th>
+                  </tr>
+                </thead>
+                <tbody id="kas-jurnal-tbody">
+                  <!-- Injected via JS -->
+                </tbody>
+              </table>
+            </div>
+
+            <!-- SLA Desa Banner -->
+            <div class="p-4 rounded-2xl bg-amber-50/70 border border-amber-200/60 flex items-center justify-between gap-3">
+              <div class="flex items-center gap-3">
+                <span class="material-symbols-outlined text-amber-700 text-[22px]">verified</span>
+                <div>
+                  <p class="font-bold text-xs text-amber-900">Kesesuaian Anggaran Operasional (SLA Desa)</p>
+                  <p class="text-[11px] text-amber-800">Rasio biaya operasional terhadap bruto penjualan saat ini berada di angka <strong>23,7%</strong> (Batas aman musyawarah desa: maks 30%).</p>
+                </div>
+              </div>
+              <span class="px-3 py-1 rounded-full bg-white text-xs font-bold text-status-lunas-fg shadow-sm shrink-0">Kondisi Ideal</span>
+            </div>
+          </div>
+
+          <!-- RIGHT SECTION: Generator Rekapitulasi Upah (4 Cols) -->
+          <div class="lg:col-span-4 flex flex-col gap-4">
+            <div class="bg-surface-white rounded-2xl p-5 shadow-sm flex flex-col gap-4">
+              <div class="flex items-center justify-between">
+                <div class="flex items-center gap-2">
+                  <span class="material-symbols-outlined text-secondary text-[20px]">groups</span>
+                  <h3 class="font-headline-sm font-bold text-primary text-sm">Rekapitulasi Upah Tim</h3>
+                </div>
+                <span class="text-xs bg-status-lunas-bg text-status-lunas-fg px-2.5 py-0.5 rounded-full font-bold">9 Petik Aktif</span>
+              </div>
+
+              <!-- Skema Toggle -->
+              <div class="grid grid-cols-2 gap-1.5 p-1 rounded-xl bg-surface-subtle text-xs">
+                <button id="btn-skema-borongan" onclick="App.toggleUpahSkema('borongan')" class="py-1.5 rounded-lg font-bold bg-primary text-white shadow-sm transition-all">
+                  Borongan (Rp/Kg)
+                </button>
+                <button id="btn-skema-harian" onclick="App.toggleUpahSkema('harian')" class="py-1.5 rounded-lg font-semibold text-text-secondary hover:text-text-primary transition-all">
+                  Harian Tetap
+                </button>
+              </div>
+
+              <div class="grid grid-cols-2 gap-2 text-xs py-1 border-b border-border-subtle">
+                <div>
+                  <span class="text-[11px] text-text-muted uppercase font-bold">Tarif Musyawarah</span>
+                  <p class="font-bold text-primary font-mono text-sm mt-0.5">Rp 2.500 / kg</p>
+                </div>
+                <div class="text-right">
+                  <span class="text-[11px] text-text-muted uppercase font-bold">Volume Timbang</span>
+                  <p class="font-bold text-text-primary font-mono text-sm mt-0.5">3.200 kg</p>
+                </div>
+              </div>
+
+              <!-- List of Members -->
+              <div id="kas-upah-roll" class="flex flex-col gap-1 max-h-[380px] overflow-y-auto pr-1">
+                <!-- Injected via JS -->
+              </div>
+
+              <!-- Total Kalkulasi -->
+              <div class="p-4 rounded-xl bg-surface-subtle flex items-center justify-between pt-3 border-t border-border-subtle">
+                <div>
+                  <span class="text-[11px] text-text-muted uppercase font-bold block">Total Kalkulasi Upah</span>
+                  <span class="text-xs text-text-secondary font-medium">9 Anggota Tim Petik</span>
+                </div>
+                <div id="kas-upah-total-kalkulasi" class="font-stat-display text-2xl font-bold text-primary font-mono">
+                  Rp 8.000.000
+                </div>
+              </div>
+
+              <!-- Posting Button -->
+              <button onclick="App.handlePostingUpahKeKas()" class="w-full py-3 rounded-xl bg-primary hover:bg-primary-container text-white text-xs font-bold shadow-md transition-all flex items-center justify-center gap-2">
+                <span class="material-symbols-outlined text-[18px]">account_balance</span>
+                <span>Posting Otomatis ke Kas Operasional</span>
+              </button>
+              <p class="text-[11px] text-text-muted text-center leading-tight">Otomatis sinkron ke Jurnal Pembayaran &amp; terkirim ke WhatsApp Mandor.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ===================================================================== -->
+      <!-- VIEW 4: UPAH TIM (ALIAS/SUBMENU)                                      -->
+      <!-- ===================================================================== -->
+      <div id="view-upah-tim" class="view-panel px-4 md:px-8 py-6 max-w-[1400px] mx-auto w-full">
+        <div class="flex items-center justify-between mb-6">
+          <div>
+            <h1 class="font-headline-lg text-2xl font-bold text-primary">Generator Upah Kerja Panen Manggis</h1>
+            <p class="text-xs text-text-secondary">Simulasi bagi hasil tim pemetik mandiri sesuai SK Kades Desa Sindangasih No. 14/2026.</p>
+          </div>
+          <button onclick="App.handlePostingUpahKeKas()" class="px-5 py-2.5 rounded-full bg-primary text-white text-xs font-bold shadow-md hover:bg-primary-container transition-all flex items-center gap-1.5">
+            <span class="material-symbols-outlined text-[18px]">send</span>
+            <span>Posting Upah ke Kas Operasional</span>
+          </button>
+        </div>
+
+        <div class="bg-surface-white rounded-2xl p-6 shadow-sm">
+          <p class="text-xs text-text-secondary mb-4">Pengaturan tarif standar dan preferensi skema dapat disesuaikan pada menu Master Data.</p>
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <div class="p-4 rounded-xl bg-surface-subtle flex items-center gap-3">
+              <span class="material-symbols-outlined text-secondary text-[24px]">scale</span>
+              <div>
+                <p class="text-xs text-text-muted font-bold">Tarif Borongan Standar</p>
+                <p class="font-bold text-base text-primary font-mono">Rp 2.500 / kg</p>
+              </div>
+            </div>
+            <div class="p-4 rounded-xl bg-surface-subtle flex items-center gap-3">
+              <span class="material-symbols-outlined text-secondary text-[24px]">schedule</span>
+              <div>
+                <p class="text-xs text-text-muted font-bold">Tarif Harian Standar</p>
+                <p class="font-bold text-base text-primary font-mono">Rp 120.000 / hari</p>
+              </div>
+            </div>
+            <div class="p-4 rounded-xl bg-surface-subtle flex items-center gap-3">
+              <span class="material-symbols-outlined text-secondary text-[24px]">badge</span>
+              <div>
+                <p class="text-xs text-text-muted font-bold">Insentif Mandor</p>
+                <p class="font-bold text-base text-primary font-mono">+Rp 200/kg atau +Rp 15.000/hari</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ===================================================================== -->
+      <!-- VIEW 5: PANEL VALIDASI & AUDIT KOORDINATOR (SCREEN 7)                 -->
+      <!-- ===================================================================== -->
+      <div id="view-audit-approval" class="view-panel px-4 md:px-8 py-6 max-w-[1600px] mx-auto w-full">
+        <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-6">
+          <div>
+            <div class="flex items-center gap-2 mb-1">
+              <span class="text-xs font-bold text-secondary uppercase tracking-wider">F4 • Protokol RBAC Desa</span>
+              <span class="w-1.5 h-1.5 rounded-full bg-status-menunggu-fg"></span>
+              <span class="text-xs text-status-menunggu-fg font-semibold">Menunggu Verifikasi</span>
+            </div>
+            <h1 class="font-headline-lg text-2xl md:text-3xl font-bold text-primary tracking-tight">Panel Validasi &amp; Audit Koordinator</h1>
+            <p class="text-xs text-text-secondary">Otorisasi pengeluaran kas operasional dan penyelesaian selisih setoran penjualan pengepul.</p>
+          </div>
+
+          <div class="flex items-center gap-3">
+            <div class="bg-surface-white px-4 py-2 rounded-2xl shadow-sm text-right">
+              <span class="text-[10px] text-text-muted uppercase font-bold block">Kas Menunggu</span>
+              <span class="font-mono font-bold text-sm text-status-tertunda-fg">Rp 4.590.000</span>
+            </div>
+            <div class="bg-surface-white px-4 py-2 rounded-2xl shadow-sm text-right">
+              <span class="text-[10px] text-text-muted uppercase font-bold block">Selisih Tertunda</span>
+              <span class="font-mono font-bold text-sm text-status-selisih-fg">-Rp 1.450.000</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Strict RBAC Callout -->
+        <div class="bg-emerald-900/10 border border-emerald-900/20 rounded-2xl p-4 mb-6 flex items-start gap-3">
+          <span class="material-symbols-outlined text-primary text-[22px] shrink-0 mt-0.5">admin_panel_settings</span>
+          <div class="flex-1">
+            <h4 class="font-bold text-xs text-primary flex items-center gap-2">
+              <span>Akses Khusus Koordinator Lapangan</span>
+              <span class="bg-white text-primary text-[10px] px-2 py-0.2 rounded-full shadow-sm font-semibold">Aturan Ketat Sistem</span>
+            </h4>
+            <p class="text-xs text-text-secondary mt-0.5">Bendahara tidak dapat menyetujui pengeluarannya sendiri (Pemisahan Tugas RBAC). Seluruh pencairan saldo kas operasional &gt; Rp 200.000 wajib divalidasi dengan lampiran nota fisik yang sah.</p>
+          </div>
+          <div class="hidden sm:flex items-center gap-1.5 text-xs text-text-muted shrink-0">
+            <span class="material-symbols-outlined text-[16px] text-chart-mint-stroke">lock</span>
+            <span>Log Terkunci</span>
+          </div>
+        </div>
+
+        <!-- Dual-Tab Navigation -->
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-6">
+          <div class="bg-surface-subtle p-1 rounded-full flex gap-1 shadow-inner text-xs font-semibold">
+            <button id="tab-btn-1" onclick="App.switchAuditTab('tab-1')" class="px-5 py-2 rounded-full bg-primary-container text-white shadow-sm flex items-center gap-2 transition-all">
+              <span class="material-symbols-outlined text-[18px]">receipt_long</span>
+              <span>Pengeluaran Menunggu Persetujuan</span>
+              <span id="audit-count-badge-kas" class="px-2 py-0.5 text-[10px] rounded-full bg-status-menunggu-bg text-status-menunggu-fg">3 Transaksi</span>
+            </button>
+            <button id="tab-btn-2" onclick="App.switchAuditTab('tab-2')" class="px-5 py-2 rounded-full text-text-secondary hover:text-text-primary transition-all flex items-center gap-2">
+              <span class="material-symbols-outlined text-[18px]">difference</span>
+              <span>Audit Selisih Setoran Penjualan</span>
+              <span id="audit-count-badge-panen" class="px-2 py-0.5 text-[10px] rounded-full bg-status-selisih-bg text-status-selisih-fg">2 Kasus</span>
+            </button>
+          </div>
+          <div class="flex items-center gap-2 text-xs text-text-muted">
+            <span class="w-2 h-2 rounded-full bg-chart-mint-stroke animate-pulse"></span>
+            <span>Sinkronisasi Kasir POS: 2 menit lalu</span>
+          </div>
+        </div>
+
+        <!-- Main Stream Grid -->
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
+          <!-- Left Stream (8 Cols) -->
+          <div class="lg:col-span-8 flex flex-col gap-6">
+            <div id="audit-tab-content-1" class="flex flex-col gap-5">
+              <div id="audit-stream-kas" class="flex flex-col gap-4">
+                <!-- Injected via JS -->
+              </div>
+            </div>
+
+            <div id="audit-tab-content-2" class="flex flex-col gap-5" style="display: none;">
+              <div id="audit-stream-panen" class="flex flex-col gap-4">
+                <!-- Injected via JS -->
+              </div>
+            </div>
+          </div>
+
+          <!-- Right Sidebar (4 Cols) -->
+          <div class="lg:col-span-4 flex flex-col gap-6">
+            <!-- Otoritas Card -->
+            <div class="bg-primary-container text-white rounded-2xl p-6 shadow-md flex flex-col gap-4">
+              <div class="flex items-center justify-between">
+                <div>
+                  <span class="text-[10px] text-secondary-container uppercase tracking-wider font-bold">Otoritas Aktif</span>
+                  <h3 class="font-headline-sm font-bold text-white text-base mt-0.5">Ahmad Pratama</h3>
+                  <p class="text-xs text-secondary-container">Koordinator Pemegang Token</p>
+                </div>
+                <div class="w-10 h-10 rounded-full bg-secondary flex items-center justify-center text-white">
+                  <span class="material-symbols-outlined text-[20px]">security</span>
+                </div>
+              </div>
+              <div class="pt-3 border-t border-primary/40 flex items-center justify-between text-xs text-secondary-container">
+                <span>Batas Persetujuan Kas:</span>
+                <strong class="text-white font-mono">Maks. Rp 15.000.000</strong>
+              </div>
+              <div class="flex items-center justify-between text-xs text-secondary-container">
+                <span>Integritas Kasir:</span>
+                <strong class="text-chart-mint-stroke">100% Sesuai SOP</strong>
+              </div>
+              <div class="text-[10px] font-mono text-secondary-container/70 pt-1 border-t border-primary/30">
+                Digital Signature: RSA-SHA256 • Verified 2026
+              </div>
+            </div>
+
+            <!-- Log Audit Stream -->
+            <div class="bg-surface-white rounded-2xl p-6 shadow-sm flex flex-col gap-4">
+              <div class="flex items-center justify-between">
+                <h4 class="font-headline-sm font-bold text-primary text-sm">Log Audit 24 Jam Terakhir</h4>
+                <span class="text-[11px] text-status-lunas-fg font-semibold">Real-time</span>
+              </div>
+              <div id="audit-log-stream" class="flex flex-col gap-3">
+                <!-- Injected via JS -->
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ===================================================================== -->
+      <!-- VIEW 6: LAPORAN & CETAK REKAPITULASI RESMI (SCREEN 4)                 -->
+      <!-- ===================================================================== -->
+      <div id="view-laporan" class="view-panel px-4 md:px-8 py-6 max-w-[1600px] mx-auto w-full">
+        <!-- Header -->
+        <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-6 no-print">
+          <div>
+            <div class="flex items-center gap-2 text-xs text-text-muted mb-1">
+              <span>Arsip &amp; Pertanggungjawaban</span>
+              <span>&rsaquo;</span>
+              <span class="text-primary font-semibold">Laporan &amp; Ekspor PDF</span>
+            </div>
+            <h1 class="font-headline-lg text-2xl font-bold text-primary">Laporan &amp; Cetak Rekapitulasi Resmi</h1>
+            <p class="text-xs text-text-secondary">Terbitkan dokumen resmi dengan Kop Desa, tanda tangan elektronik pejabat, dan kode verifikasi QR ber-HMAC.</p>
+          </div>
+
+          <div class="flex items-center gap-2.5">
+            <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-status-lunas-bg text-status-lunas-fg text-xs font-semibold">
+              <span class="w-2 h-2 rounded-full bg-chart-mint-stroke"></span>
+              <span>Arsip Sah BUMDes Sindangasih</span>
+            </span>
+            <button onclick="App.handleCetakLaporan()" class="px-4 py-2 rounded-full bg-surface-white text-xs font-semibold text-text-primary shadow-sm hover:bg-surface-subtle transition-all flex items-center gap-1.5">
+              <span class="material-symbols-outlined text-[16px]">print</span>
+              <span>Cetak Pratinjau</span>
+            </button>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+          <!-- Parameter Dokumen (Left 4 Cols) -->
+          <div class="lg:col-span-4 flex flex-col gap-5 no-print">
+            <div class="bg-surface-white rounded-2xl p-6 shadow-sm flex flex-col gap-4">
+              <div class="flex items-center justify-between pb-2 border-b border-border-subtle">
+                <span class="font-headline-sm font-bold text-primary text-sm flex items-center gap-1.5">
+                  <span class="material-symbols-outlined text-[18px] text-secondary">tune</span>
+                  <span>Parameter Dokumen</span>
+                </span>
+                <span class="text-[11px] font-mono text-text-muted">REV-2026.08</span>
+              </div>
+
+              <!-- Radio Jenis Laporan -->
+              <div class="flex flex-col gap-2">
+                <span class="text-xs font-semibold text-text-secondary">Jenis Laporan Resmi</span>
+                <label class="flex items-center justify-between p-2.5 rounded-xl bg-primary/5 border border-primary/20 cursor-pointer">
+                  <div class="flex items-center gap-2.5">
+                    <input type="radio" checked name="rep-type" class="accent-primary"/>
+                    <span class="text-xs font-bold text-primary">Rekap Panen &amp; Laba Bersih</span>
+                  </div>
+                  <span class="material-symbols-outlined text-[18px] text-primary">verified</span>
+                </label>
+                <label class="flex items-center justify-between p-2.5 rounded-xl bg-surface-subtle hover:bg-surface-container cursor-pointer transition-colors">
+                  <div class="flex items-center gap-2.5">
+                    <input type="radio" name="rep-type" class="accent-primary"/>
+                    <span class="text-xs font-semibold text-text-secondary">Buku Kas Operasional Harian</span>
+                  </div>
+                  <span class="material-symbols-outlined text-[18px] text-text-muted">receipt_long</span>
+                </label>
+                <label class="flex items-center justify-between p-2.5 rounded-xl bg-surface-subtle hover:bg-surface-container cursor-pointer transition-colors">
+                  <div class="flex items-center gap-2.5">
+                    <input type="radio" name="rep-type" class="accent-primary"/>
+                    <span class="text-xs font-semibold text-text-secondary">Slip Rekapitulasi Upah Tim</span>
+                  </div>
+                  <span class="material-symbols-outlined text-[18px] text-text-muted">groups</span>
+                </label>
+              </div>
+
+              <!-- Rentang Waktu -->
+              <div class="flex flex-col gap-1.5">
+                <label class="text-xs font-semibold text-text-secondary">Rentang Waktu Panen</label>
+                <input type="text" readonly value="01 Agu 2026 - 31 Agu 2026 (Puncak)" class="h-10 px-3 bg-surface-subtle rounded-xl text-xs text-text-primary focus:outline-none"/>
+              </div>
+
+              <!-- Opsi Format -->
+              <div class="flex flex-col gap-2 pt-1 border-t border-border-subtle">
+                <span class="text-xs font-semibold text-text-secondary">Opsi Validasi &amp; Format</span>
+                <label class="flex items-center gap-2 text-xs text-text-primary cursor-pointer">
+                  <input type="checkbox" checked class="accent-primary rounded"/>
+                  <span>QR Code Verifikasi Integritas</span>
+                </label>
+                <label class="flex items-center gap-2 text-xs text-text-primary cursor-pointer">
+                  <input type="checkbox" checked class="accent-primary rounded"/>
+                  <span>Tanda Tangan Digital Koordinator &amp; Kades</span>
+                </label>
+                <label class="flex items-center gap-2 text-xs text-text-primary cursor-pointer">
+                  <input type="checkbox" checked class="accent-primary rounded"/>
+                  <span>Rasio Efisiensi Upah per Kilogram</span>
+                </label>
+              </div>
+
+              <!-- Buttons -->
+              <div class="flex flex-col gap-2 pt-2">
+                <button onclick="App.handleTerbitkanDokumenResmi()" class="w-full py-3 rounded-xl bg-primary hover:bg-primary-container text-white text-xs font-bold shadow-md transition-all flex items-center justify-center gap-2">
+                  <span class="material-symbols-outlined text-[18px]">verified</span>
+                  <span>Terbitkan Dokumen &amp; Buat QR</span>
+                </button>
+                <button onclick="App.handleCetakLaporan()" class="w-full py-2.5 rounded-xl bg-primary-container text-white text-xs font-bold shadow-sm hover:bg-primary transition-all flex items-center justify-center gap-2">
+                  <span class="material-symbols-outlined text-[18px]">picture_as_pdf</span>
+                  <span>Unduh Dokumen PDF Resmi</span>
+                </button>
+                <button onclick="App.handleEksporExcel()" class="w-full py-2.5 rounded-xl bg-surface-subtle hover:bg-surface-container text-xs font-semibold text-text-primary transition-all flex items-center justify-center gap-2">
+                  <span class="material-symbols-outlined text-[18px] text-status-lunas-fg">table_view</span>
+                  <span>Ekspor Data ke Excel (.xlsx)</span>
+                </button>
+              </div>
+
+              <!-- Otentikasi Note -->
+              <div class="p-3 rounded-xl bg-status-disetujui-bg text-status-disetujui-fg text-xs flex items-start gap-2">
+                <span class="material-symbols-outlined text-[18px] shrink-0 mt-0.5">verified_user</span>
+                <p class="leading-relaxed"><strong>Otentikasi Dokumen:</strong> QR Code terhubung langsung ke basis verifikasi publik GAS BUMDes Manggis Jaya Mandiri dengan sidik SHA-256 tersertifikasi.</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- A4 Paper Document Preview Canvas (Right 8 Cols) -->
+          <div class="lg:col-span-8 flex flex-col items-center">
+            <div id="report-canvas-paper" class="w-full bg-surface-white rounded-2xl shadow-xl p-8 md:p-12 flex flex-col gap-6 text-text-primary relative overflow-hidden border border-border-subtle/80">
+              
+              <!-- KOP RESMI PEMERINTAHAN DESA & BUMDES -->
+              <div class="flex flex-col items-center text-center pb-2">
+                <div class="flex items-center justify-between w-full mb-3 px-2">
+                  <!-- Logo Purwakarta -->
+                  <div class="w-16 h-16 rounded-xl bg-surface-subtle flex items-center justify-center text-primary shadow-sm shrink-0">
+                    <span class="material-symbols-outlined text-[36px]">nature_people</span>
+                  </div>
+                  <!-- Teks Kop -->
+                  <div class="flex-1 px-4">
+                    <h3 class="font-headline-sm uppercase tracking-wider text-text-primary font-bold text-xs">Pemerintah Kabupaten Purwakarta</h3>
+                    <h4 class="text-xs uppercase tracking-wide text-text-secondary">Kecamatan Wanayasa • Desa Sindangasih</h4>
+                    <h2 class="font-headline-md font-bold uppercase tracking-tight text-primary text-base md:text-lg mt-0.5">Badan Usaha Milik Desa (BUMDes) Manggis Jaya Mandiri</h2>
+                    <p class="text-[11px] text-text-muted mt-0.5">Sekretariat: Jl. Raya Wanayasa No. 42, Sindangasih, Kec. Wanayasa, Purwakarta 41174 • surel: bumdes.mjm@sindangasih.desa.id</p>
+                  </div>
+                  <!-- Logo Manggis -->
+                  <div class="w-16 h-16 rounded-xl bg-primary-container text-white flex items-center justify-center shadow-sm shrink-0">
+                    <span class="material-symbols-outlined text-[34px]">spa</span>
+                  </div>
+                </div>
+
+                <!-- Double Lines Kop Separator -->
+                <div class="w-full flex flex-col gap-0.5 mt-1">
+                  <div class="w-full h-[3px] bg-primary"></div>
+                  <div class="w-full h-[1px] bg-primary"></div>
+                </div>
+              </div>
+
+              <!-- Judul Dokumen -->
+              <div class="flex flex-col items-center text-center -mt-2">
+                <h2 class="font-headline-md text-primary font-bold underline underline-offset-4 text-base md:text-lg tracking-tight">
+                  LAPORAN PERTANGGUNGJAWABAN KEUANGAN PANEN MANGGIS
+                </h2>
+                <p class="text-xs font-mono text-text-secondary mt-1">
+                  Nomor Dokumen: 042/BUMDES-MJM/PANEN-VIII/2026
+                </p>
+                <span class="text-xs text-text-muted">
+                  Periode Audit Panen: <strong>01 Agustus 2026</strong> s.d. <strong>31 Agustus 2026</strong>
+                </span>
+              </div>
+
+              <!-- Metric Summary Chips Strip -->
+              <div class="grid grid-cols-2 md:grid-cols-5 gap-2 p-3 rounded-xl bg-surface-subtle text-xs">
+                <div class="p-2.5 rounded-lg bg-surface-white flex flex-col">
+                  <span class="text-text-muted text-[11px]">Volume Panen</span>
+                  <span id="rep-vol-panen" class="font-bold text-text-primary text-sm mt-0.5 font-mono">14.850 kg</span>
+                  <span class="text-[10px] text-status-lunas-fg">3 Blok Panen</span>
+                </div>
+                <div class="p-2.5 rounded-lg bg-surface-white flex flex-col">
+                  <span class="text-text-muted text-[11px]">Bruto Penjualan</span>
+                  <span id="rep-bruto" class="font-bold text-text-primary text-sm mt-0.5 font-mono">Rp 82,65 Jt</span>
+                  <span class="text-[10px] text-text-muted">4 Pengepul</span>
+                </div>
+                <div class="p-2.5 rounded-lg bg-surface-white flex flex-col">
+                  <span class="text-text-muted text-[11px]">Beban Logistik</span>
+                  <span id="rep-beban" class="font-bold text-status-ditolak-fg text-sm mt-0.5 font-mono">Rp 15,25 Jt</span>
+                  <span class="text-[10px] text-text-muted">BBM &amp; Keranjang</span>
+                </div>
+                <div class="p-2.5 rounded-lg bg-surface-white flex flex-col">
+                  <span class="text-text-muted text-[11px]">Total Upah Petik</span>
+                  <span id="rep-upah" class="font-bold text-text-primary text-sm mt-0.5 font-mono">Rp 8,00 Jt</span>
+                  <span class="text-[10px] text-secondary font-semibold">9 Anggota Tim</span>
+                </div>
+                <div class="col-span-2 md:col-span-1 p-2.5 rounded-lg bg-primary text-white flex flex-col">
+                  <span class="text-secondary-container text-[11px]">Laba Usaha Bersih</span>
+                  <span id="rep-laba" class="font-bold text-white text-sm mt-0.5 font-mono">Rp 59,40 Jt</span>
+                  <span class="text-[10px] text-chart-mint-stroke font-bold">Desa Mandiri</span>
+                </div>
+              </div>
+
+              <!-- Tabel Rekapitulasi Penjualan Komoditas -->
+              <div class="flex flex-col gap-2">
+                <div class="flex items-center justify-between text-xs">
+                  <h4 class="font-headline-sm font-bold text-text-primary">Rekapitulasi Penjualan Komoditas per Transaksi</h4>
+                  <span class="text-text-muted text-[11px]">Mata Uang: IDR (Rupiah)</span>
+                </div>
+                <div class="overflow-x-auto rounded-lg border border-border-subtle">
+                  <table class="w-full text-left font-body-sm text-xs">
+                    <thead class="bg-surface-subtle text-text-secondary uppercase font-semibold text-[11px]">
+                      <tr>
+                        <th class="p-2.5">No</th>
+                        <th class="p-2.5">Tanggal</th>
+                        <th class="p-2.5">Blok Kebun &amp; Mitra Pengepul</th>
+                        <th class="p-2.5 text-right">Volume</th>
+                        <th class="p-2.5 text-right">Nilai Bruto</th>
+                        <th class="p-2.5 text-right">Setor Kas</th>
+                        <th class="p-2.5 text-center">Status Audit</th>
+                      </tr>
+                    </thead>
+                    <tbody id="rep-table-tbody" class="text-text-primary">
+                      <!-- Injected via JS -->
+                    </tbody>
+                    <tfoot class="bg-surface-subtle/80 font-bold border-t border-border-subtle">
+                      <tr>
+                        <td colspan="3" class="p-2.5 uppercase text-text-secondary">Total Akumulasi Periode:</td>
+                        <td id="rep-total-kg" class="p-2.5 text-right font-mono">14.850 kg</td>
+                        <td id="rep-total-bruto" class="p-2.5 text-right font-mono">Rp 82.650.000</td>
+                        <td id="rep-total-setor" class="p-2.5 text-right font-mono text-status-lunas-fg">Rp 82.400.000</td>
+                        <td class="p-2.5 text-center text-status-selisih-fg text-[11px]">Rp 250rb Selisih</td>
+                      </tr>
+                    </tfoot>
+                  </table>
+                </div>
+              </div>
+
+              <!-- Catatan Rekonsiliasi & Audit Lapangan BUMDes -->
+              <div class="p-3 rounded-xl bg-surface-subtle text-xs text-text-secondary leading-relaxed border border-border-subtle/60">
+                <strong>Catatan Rekonsiliasi &amp; Audit Lapangan BUMDes:</strong><br/>
+                Seluruh setoran fisik kas telah diverifikasi dan dicocokkan dengan mutasi rekening BUMDes Bank BJB Cabang Wanayasa No. Rekening 002-88192-10-1. Selisih susut timbangan senilai Rp 250.000 pada nota transaksi PNN-0002 telah diselesaikan melalui mekanisme klaim toleransi susut kemasan sesuai Berita Acara Nomor BA-018/BA-M/M/VIII/2026 tertanggal 24 Agustus 2026.
+              </div>
+
+              <!-- Tanda Tangan Resmi & QR Code Authentication -->
+              <div class="pt-4 grid grid-cols-1 md:grid-cols-12 gap-4 items-end">
+                <!-- QR Code (4 Cols) -->
+                <div class="md:col-span-4 flex items-center gap-3">
+                  <div id="rep-qr-canvas" class="p-2 rounded-xl bg-surface-white border border-border-subtle shadow-sm shrink-0">
+                    <!-- SVG QR Code Injected via JS -->
+                  </div>
+                  <div class="flex flex-col">
+                    <span class="text-xs font-bold text-primary">Verifikasi Publik</span>
+                    <span class="text-[11px] text-text-muted leading-tight mt-0.5">Pindai kode QR untuk konfirmasi integritas SHA-256 pada portal GAS Desa Sindangasih.</span>
+                    <span id="rep-kode-verif" class="font-mono text-[10px] text-text-muted mt-1 font-bold">ID: MJK-8F2A-99B1-E37C</span>
+                  </div>
+                </div>
+
+                <!-- Mengetahui Kades (4 Cols) -->
+                <div class="md:col-span-4 flex flex-col items-center text-center">
+                  <span class="text-xs text-text-secondary">Mengetahui &amp; Mengesahkan,</span>
+                  <span class="text-[11px] text-text-muted">Kepala Desa Sindangasih</span>
+                  <!-- SVG Digital Signature -->
+                  <div class="h-16 flex items-center justify-center my-1">
+                    <svg class="w-32 h-14 text-primary" fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="2" viewBox="0 0 160 60">
+                      <path d="M15 45 C 30 10, 45 50, 60 20 C 75 -5, 80 55, 95 30 C 110 15, 125 40, 145 25"></path>
+                      <path d="M35 30 Q 70 35, 130 32" stroke-width="1.5"></path>
+                    </svg>
+                  </div>
+                  <p class="text-xs font-bold text-text-primary underline">H. Suryana, S.Sos</p>
+                  <p class="text-[10px] text-text-muted font-mono">NIP. 19740512 200212 1 003</p>
+                </div>
+
+                <!-- Pelaksana BUMDes (4 Cols) -->
+                <div class="md:col-span-4 flex flex-col items-center text-center relative">
+                  <span class="text-xs text-text-secondary">Sindangasih, 31 Agustus 2026</span>
+                  <span class="text-[11px] text-text-muted">Pelaksana Operasional BUMDes</span>
+                  <!-- Signature & Wet Stamp -->
+                  <div class="h-16 flex items-center justify-center my-1 relative w-full">
+                    <!-- Stempel Bulat -->
+                    <div class="absolute right-4 -top-2 w-16 h-16 rounded-full border-2 border-dashed border-status-lunas-fg opacity-80 rotate-[-12deg] flex flex-col items-center justify-center p-1 text-center pointer-events-none">
+                      <span class="text-[7px] font-bold text-status-lunas-fg uppercase">BUMDES MANDIRI</span>
+                      <span class="material-symbols-outlined text-[14px] text-status-lunas-fg">spa</span>
+                      <span class="text-[6px] font-mono text-status-lunas-fg">SINDANGASIH</span>
+                    </div>
+                    <svg class="w-32 h-14 text-secondary z-10" fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="2" viewBox="0 0 160 60">
+                      <path d="M20 38 Q 40 8, 60 40 T 100 25 T 140 35"></path>
+                      <path d="M45 45 Q 85 5, 120 40" stroke-width="1.5"></path>
+                    </svg>
+                  </div>
+                  <div class="flex items-center justify-between w-full px-2 text-xs">
+                    <div class="text-left">
+                      <p class="font-bold text-text-primary underline">Ahmad Pratama</p>
+                      <p class="text-[10px] text-text-muted">Koord. Lapangan</p>
+                    </div>
+                    <div class="text-right">
+                      <p class="font-bold text-text-primary underline">Siti Rahma</p>
+                      <p class="text-[10px] text-text-muted">Bendahara Kas</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ===================================================================== -->
+      <!-- VIEW 7: MASTER DATA OPERASIONAL & ACUAN PANEN (SCREEN 6)              -->
+      <!-- ===================================================================== -->
+      <div id="view-master-data" class="view-panel px-4 md:px-8 py-6 max-w-[1600px] mx-auto w-full">
+        <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-6">
+          <div>
+            <div class="flex items-center gap-2 mb-1">
+              <span class="text-xs font-bold text-secondary uppercase tracking-wider">Pengaturan Sistem</span>
+              <span class="text-text-muted">&bull;</span>
+              <span class="text-xs text-text-muted">Master Data Pertanian &amp; Keuangan</span>
+            </div>
+            <h1 class="font-headline-lg text-2xl font-bold text-primary">Master Data Operasional &amp; Acuan Panen</h1>
+            <p class="text-xs text-text-secondary">Kelola konfigurasi standar upah tim petik, harga patokan manggis, batas wajib unggah nota fisik, serta daftar blok kebun dan pengepul terverifikasi.</p>
+          </div>
+
+          <div class="flex items-center gap-2.5">
+            <button onclick="App.handleEksporExcel()" class="px-4 py-2 rounded-full bg-surface-white text-xs font-semibold text-text-primary shadow-sm hover:bg-surface-subtle transition-all flex items-center gap-1.5">
+              <span class="material-symbols-outlined text-[16px]">cloud_download</span>
+              <span>Unduh Cadangan</span>
+            </button>
+            <button onclick="App.showToast('Hanya Koordinator yang berhak menambah entitas master baru.', 'warning')" class="flex items-center gap-1.5 bg-primary hover:bg-primary-container text-white px-5 py-2 rounded-full shadow-md text-xs font-semibold transition-all">
+              <span class="material-symbols-outlined text-[18px]">add_circle</span>
+              <span>+ Tambah Entitas Data</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Segmented Tab Navigation -->
+        <div class="flex items-center gap-2 bg-surface-subtle p-1 rounded-2xl mb-6 text-xs font-semibold overflow-x-auto">
+          <button class="master-tab-btn active inline-flex items-center gap-2 px-5 py-2 rounded-xl bg-primary text-white shadow-sm" onclick="App.switchMasterTab('tab-pemetik', this)">
+            <span class="material-symbols-outlined text-[18px]">groups</span>
+            <span>Tim Pemetik</span>
+            <span class="px-2 py-0.5 rounded-full bg-secondary text-white text-[10px]">9 Orang</span>
+          </button>
+          <button class="master-tab-btn inline-flex items-center gap-2 px-5 py-2 rounded-xl text-text-secondary hover:text-text-primary hover:bg-surface-white transition-all" onclick="App.switchMasterTab('tab-harga-sop', this)">
+            <span class="material-symbols-outlined text-[18px]">price_change</span>
+            <span>Harga Acuan &amp; SOP Nota</span>
+            <span class="px-2 py-0.5 rounded-full bg-status-tertunda-bg text-status-tertunda-fg text-[10px]">Musim 2026</span>
+          </button>
+          <button class="master-tab-btn inline-flex items-center gap-2 px-5 py-2 rounded-xl text-text-secondary hover:text-text-primary hover:bg-surface-white transition-all" onclick="App.switchMasterTab('tab-blok-mitra', this)">
+            <span class="material-symbols-outlined text-[18px]">domain_verification</span>
+            <span>Blok Kebun &amp; Mitra Pengepul</span>
+            <span class="px-2 py-0.5 rounded-full bg-status-disetujui-bg text-status-disetujui-fg text-[10px]">3 Blok / 4 Mitra</span>
+          </button>
+        </div>
+
+        <!-- TAB 1: TIM PEMETIK -->
+        <div id="tab-pemetik" class="master-tab-pane flex flex-col gap-6">
+          <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+            <div class="bg-surface-white rounded-2xl p-5 shadow-sm flex flex-col justify-between">
+              <span class="text-xs text-text-secondary font-semibold">Total Regu Petik</span>
+              <p class="font-stat-display text-2xl font-bold text-text-primary mt-2">9 Orang</p>
+              <p class="text-[11px] text-text-muted mt-1">&bull; 2 Mandor Regu, 7 Pemetik Inti</p>
+            </div>
+            <div class="bg-surface-white rounded-2xl p-5 shadow-sm flex flex-col justify-between">
+              <span class="text-xs text-text-secondary font-semibold">Tarif Standar Borongan</span>
+              <p class="font-stat-display text-2xl font-bold text-primary font-mono mt-2">Rp 2.500 <span class="text-xs text-text-muted font-normal">/ kg</span></p>
+              <p class="text-[11px] text-text-muted mt-1">Hasil Musyawarah Desa Jan 2026</p>
+            </div>
+            <div class="bg-surface-white rounded-2xl p-5 shadow-sm flex flex-col justify-between">
+              <span class="text-xs text-text-secondary font-semibold">Tarif Standar Harian</span>
+              <p class="font-stat-display text-2xl font-bold text-text-primary font-mono mt-2">Rp 120.000 <span class="text-xs text-text-muted font-normal">/ hari</span></p>
+              <p class="text-[11px] text-text-muted mt-1">Termasuk uang makan Rp 30.000/hari</p>
+            </div>
+            <div class="bg-surface-white rounded-2xl p-5 shadow-sm flex flex-col justify-between">
+              <span class="text-xs text-text-secondary font-semibold">Rata-rata Kapasitas</span>
+              <p class="font-stat-display text-2xl font-bold text-text-primary font-mono mt-2">380 kg</p>
+              <p class="text-[11px] text-status-lunas-fg font-semibold mt-1">+14.2% dari target panen per siklus</p>
+            </div>
+          </div>
+
+          <!-- Table Tim -->
+          <div class="bg-surface-white rounded-2xl p-5 shadow-sm overflow-x-auto">
+            <table class="w-full text-left font-body-sm text-xs">
+              <thead class="bg-surface-subtle text-text-secondary uppercase font-semibold text-[11px]">
+                <tr>
+                  <th class="py-3 px-3">No</th>
+                  <th class="py-3 px-3">Anggota Petik</th>
+                  <th class="py-3 px-3">Regu / Penugasan Blok</th>
+                  <th class="py-3 px-3">Skema Preferensi</th>
+                  <th class="py-3 px-3">Tarif Standar</th>
+                  <th class="py-3 px-3 text-center">Status</th>
+                  <th class="py-3 px-3 text-right">Aksi</th>
+                </tr>
+              </thead>
+              <tbody id="master-tim-tbody">
+                <!-- Injected via JS -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- TAB 2: HARGA ACUAN & SOP NOTA -->
+        <div id="tab-harga-sop" class="master-tab-pane flex flex-col gap-6" style="display: none;">
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div class="bg-surface-white rounded-2xl p-6 shadow-sm flex flex-col gap-4">
+              <h3 class="font-headline-sm font-bold text-primary text-sm">Harga Acuan Musim Panen 2026</h3>
+              <p class="text-xs text-text-muted">Standar harga jual pengepul per grade mutu buah manggis Desa Sindangasih.</p>
+              <div id="master-harga-container" class="flex flex-col gap-3">
+                <!-- Injected via JS -->
+              </div>
+            </div>
+
+            <div class="bg-surface-white rounded-2xl p-6 shadow-sm flex flex-col gap-4">
+              <h3 class="font-headline-sm font-bold text-primary text-sm">SOP Audit Nota Fisik</h3>
+              <div class="p-4 rounded-xl bg-status-tertunda-bg/70 border border-status-tertunda-fg/30 flex items-start gap-3">
+                <span class="material-symbols-outlined text-status-tertunda-fg text-[22px]">policy</span>
+                <div>
+                  <p class="font-bold text-xs text-status-tertunda-fg">Batas Wajib Unggah Nota Fisik: &gt; Rp 200.000</p>
+                  <p class="text-xs text-text-secondary mt-1">Aturan Koordinator Lapangan &amp; Auditor: Semua pos pengeluaran kas operasional melebihi Rp 200.000 wajib menyertakan foto nota fisik basah berstempel sebelum sistem mengizinkan pencairan dana.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- TAB 3: BLOK KEBUN & MITRA PENGEPUL -->
+        <div id="tab-blok-mitra" class="master-tab-pane flex flex-col gap-6" style="display: none;">
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div class="bg-surface-white rounded-2xl p-6 shadow-sm flex flex-col gap-4">
+              <h3 class="font-headline-sm font-bold text-primary text-sm">Aset Lahan &amp; Blok Kebun (Total 13.1 Ha)</h3>
+              <div id="master-blok-list" class="flex flex-col gap-3">
+                <!-- Injected via JS -->
+              </div>
+            </div>
+
+            <div class="bg-surface-white rounded-2xl p-6 shadow-sm flex flex-col gap-4">
+              <h3 class="font-headline-sm font-bold text-primary text-sm">Mitra Pengepul Terverifikasi</h3>
+              <div id="master-mitra-list" class="flex flex-col gap-3">
+                <!-- Injected via JS -->
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ===================================================================== -->
+      <!-- VIEW 8: PORTAL MASUK PENGURUS BUMDES (SCREEN 5)                       -->
+      <!-- ===================================================================== -->
+      <div id="view-login" class="view-panel min-h-screen flex items-center justify-center p-4 md:p-8 bg-background relative overflow-hidden">
+        <div class="w-full max-w-5xl rounded-[24px] bg-surface-white shadow-[0_20px_50px_-12px_rgba(1,45,29,0.08)] overflow-hidden grid grid-cols-1 lg:grid-cols-12 relative z-10 border border-border-subtle/80">
+          
+          <!-- Brand Panel Left (5 Cols) -->
+          <div class="lg:col-span-5 bg-primary-container text-white p-8 md:p-10 flex flex-col justify-between relative overflow-hidden">
+            <div class="relative z-10 flex flex-col gap-4">
+              <div class="flex items-center gap-3">
+                <div class="w-10 h-10 rounded-xl bg-white flex items-center justify-center shadow-md">
+                  <span class="material-symbols-outlined text-primary text-[24px]">eco</span>
+                </div>
+                <div>
+                  <h2 class="font-headline-sm font-bold text-white text-base">ManggisKas Desa</h2>
+                  <p class="text-xs text-secondary-container">Sistem Keuangan Panen BUMDes</p>
+                </div>
+              </div>
+              <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/10 text-secondary-container text-xs self-start">
+                <span class="w-2 h-2 rounded-full bg-chart-mint-stroke animate-pulse"></span>
+                <span>Siklus Panen Raya Musim I 2026</span>
+              </span>
+            </div>
+
+            <!-- Harvest Card -->
+            <div class="relative z-10 my-6 flex flex-col gap-3">
+              <div class="relative rounded-2xl overflow-hidden shadow-lg h-40 w-full bg-primary/40">
+                <img src="https://images.unsplash.com/photo-1618160702438-9b02ab6515c9?w=600&auto=format&fit=crop&q=80" alt="Manggis Panen" class="w-full h-full object-cover opacity-80"/>
+                <div class="absolute inset-0 bg-gradient-to-t from-primary via-primary/40 to-transparent"></div>
+                <div class="absolute bottom-3 left-3 right-3 flex items-center justify-between text-white">
+                  <div>
+                    <span class="text-[11px] text-secondary-container">Varietas Ekspor Sindangasih</span>
+                    <p class="font-bold text-sm">14.820 Kg Terverifikasi</p>
+                  </div>
+                  <span class="px-2.5 py-0.5 rounded-full bg-status-lunas-bg text-status-lunas-fg text-xs font-semibold">Grade A Super</span>
+                </div>
+              </div>
+
+              <div class="p-3 rounded-xl bg-white/10 backdrop-blur-md flex items-center justify-between text-xs">
+                <div>
+                  <span class="text-secondary-container text-[11px]">Dana Kas Tersedia</span>
+                  <p class="font-bold text-white text-sm font-mono">Rp 184.500.000</p>
+                </div>
+                <span class="px-2 py-0.5 rounded bg-secondary text-white font-semibold text-[10px]">Audit Bersih</span>
+              </div>
+            </div>
+
+            <div class="relative z-10 text-[11px] text-secondary-container/90 leading-relaxed">
+              Platform tata kelola keuangan hasil bumi transparan, dilindungi enkripsi berbasis otorisasi berjenjang (RBAC) Desa Sindangasih.
+            </div>
+          </div>
+
+          <!-- Form Panel Right (7 Cols) -->
+          <div class="lg:col-span-7 p-8 md:p-10 flex flex-col justify-between bg-surface-white">
+            <div>
+              <div class="flex items-start justify-between gap-3 mb-6">
+                <div>
+                  <span class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-surface-subtle text-text-secondary text-[11px] font-semibold mb-2">
+                    <span class="material-symbols-outlined text-[14px] text-secondary">verified_user</span>
+                    <span>Portal Pengurus Resmi BUMDes</span>
+                  </span>
+                  <h1 class="font-headline-md font-bold text-primary text-xl">Masuk ke Sistem Keuangan</h1>
+                  <p class="text-xs text-text-secondary mt-1">Akses verifikasi khusus Bendahara &amp; Koordinator Lapangan.</p>
+                </div>
+                <div class="w-10 h-10 rounded-full bg-surface-subtle flex items-center justify-center text-primary">
+                  <span class="material-symbols-outlined text-[20px]">lock</span>
+                </div>
+              </div>
+
+              <!-- Form -->
+              <form id="form-login" class="flex flex-col gap-4">
+                <div class="flex flex-col gap-1.5">
+                  <label class="text-xs font-semibold text-text-primary">Nama Pengguna / ID Pengurus</label>
+                  <input id="login-username" type="text" required value="ahmad.pratama" class="h-11 px-3.5 bg-surface-subtle rounded-xl text-xs text-text-primary focus:bg-white focus:outline-none border border-border-subtle"/>
+                </div>
+
+                <div class="flex flex-col gap-1.5">
+                  <label class="text-xs font-semibold text-text-primary">Kata Sandi / Kunci Akses</label>
+                  <input id="login-password" type="password" required value="koordinator123" class="h-11 px-3.5 bg-surface-subtle rounded-xl text-xs text-text-primary focus:bg-white focus:outline-none border border-border-subtle"/>
+                </div>
+
+                <div class="flex items-center justify-between text-xs pt-1">
+                  <label class="flex items-center gap-2 cursor-pointer">
+                    <input type="checkbox" checked class="accent-primary rounded"/>
+                    <span>Ingat sesi di perangkat pos ini</span>
+                  </label>
+                  <button type="button" onclick="App.showToast('Hubungi BPD Desa Sindangasih untuk reset sandi pengurus.', 'info')" class="text-secondary hover:underline">
+                    Lupa sandi?
+                  </button>
+                </div>
+
+                <button type="submit" class="w-full py-3 rounded-xl bg-primary hover:bg-primary-container text-white text-xs font-bold shadow-md transition-all mt-2">
+                  Masuk ke Dasbor Pengurus &rarr;
+                </button>
+              </form>
+
+              <!-- Quick Demo Access 1-Click -->
+              <div class="mt-6 pt-4 border-t border-border-subtle">
+                <span class="text-[11px] uppercase tracking-wider text-text-muted font-bold block mb-2">Akses Uji Coba Cepat (Demo 1-Klik)</span>
+                <div class="grid grid-cols-2 gap-2">
+                  <button type="button" onclick="App.handleQuickLogin('bendahara')" class="p-2.5 rounded-xl bg-surface-subtle hover:bg-surface-container transition-all flex items-center gap-2 text-left">
+                    <div class="w-7 h-7 rounded-full bg-status-disetujui-bg text-status-disetujui-fg flex items-center justify-center font-bold text-[10px]">SR</div>
+                    <div>
+                      <p class="font-bold text-xs text-text-primary">Siti Rahma</p>
+                      <p class="text-[10px] text-text-muted">Bendahara Kas</p>
+                    </div>
+                  </button>
+                  <button type="button" onclick="App.handleQuickLogin('koordinator')" class="p-2.5 rounded-xl bg-surface-subtle hover:bg-surface-container transition-all flex items-center gap-2 text-left">
+                    <div class="w-7 h-7 rounded-full bg-primary-container text-white flex items-center justify-center font-bold text-[10px]">AP</div>
+                    <div>
+                      <p class="font-bold text-xs text-text-primary">Ahmad Pratama</p>
+                      <p class="text-[10px] text-text-muted">Koordinator Lapangan</p>
+                    </div>
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <div class="pt-6 text-center">
+              <a data-path="dashboard" href="#/dashboard" class="text-xs text-secondary hover:underline font-semibold inline-flex items-center gap-1">
+                <span class="material-symbols-outlined text-[16px]">arrow_back</span>
+                <span>Kembali ke Dashboard Publik</span>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <!-- ========================================================================= -->
+  <!-- MODAL BUKTI NOTA FISIK                                                    -->
+  <!-- ========================================================================= -->
+  <div id="modal-nota" class="modal-overlay">
+    <div class="bg-surface-white rounded-2xl p-6 max-w-lg w-full shadow-2xl flex flex-col gap-4 relative animate-soft-pulse border border-border-subtle">
+      <div class="flex items-center justify-between pb-3 border-b border-border-subtle">
+        <h3 id="modal-nota-title" class="font-bold text-sm text-primary">Bukti Nota / Faktur</h3>
+        <button onclick="App.closeModal('modal-nota')" class="w-8 h-8 rounded-full bg-surface-subtle flex items-center justify-center text-text-secondary hover:text-primary">
+          <span class="material-symbols-outlined text-[18px]">close</span>
+        </button>
+      </div>
+      <div class="rounded-xl overflow-hidden bg-surface-subtle flex items-center justify-center max-h-72">
+        <img id="modal-nota-img" src="" alt="Pratinjau Nota" class="max-h-72 w-full object-contain"/>
+      </div>
+      <p id="modal-nota-desc" class="text-xs text-text-secondary leading-relaxed"></p>
+      <div class="flex justify-end gap-2 pt-2 border-t border-border-subtle">
+        <button onclick="App.closeModal('modal-nota')" class="px-4 py-2 rounded-xl bg-primary text-white text-xs font-bold">
+          Tutup
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========================================================================= -->
+  <!-- MODAL VERIFIKASI PUBLIK QR DOKUMEN                                        -->
+  <!-- ========================================================================= -->
+  <div id="modal-verifikasi" class="modal-overlay">
+    <div class="bg-surface-white rounded-2xl p-6 max-w-md w-full shadow-2xl flex flex-col gap-4 border border-border-subtle">
+      <div class="flex items-center justify-between pb-3 border-b border-border-subtle">
+        <div class="flex items-center gap-2">
+          <span class="material-symbols-outlined text-primary text-[22px]">verified</span>
+          <h3 class="font-bold text-sm text-primary">Verifikasi Publik Integritas SHA-256</h3>
+        </div>
+        <button onclick="App.closeModal('modal-verifikasi')" class="w-8 h-8 rounded-full bg-surface-subtle flex items-center justify-center text-text-secondary hover:text-primary">
+          <span class="material-symbols-outlined text-[18px]">close</span>
+        </button>
+      </div>
+      <div class="flex flex-col items-center text-center gap-2 py-2">
+        <div class="p-3 rounded-2xl bg-surface-subtle">
+          <span class="material-symbols-outlined text-secondary text-[48px]">check_circle</span>
+        </div>
+        <p id="modal-verif-kode" class="font-mono font-bold text-sm text-primary">MJK-8F2A-99B1-E37C</p>
+        <span id="modal-verif-status" class="px-3 py-1 rounded-full text-xs font-bold bg-status-lunas-bg text-status-lunas-fg">ASLI &amp; TERDAFTAR (SHA-256 Valid)</span>
+        <p id="modal-verif-desc" class="text-xs text-text-muted mt-1 leading-relaxed">Dokumen Sah Terdaftar di Arsip BUMDes Manggis Jaya Mandiri Desa Sindangasih.</p>
+      </div>
+      <div class="flex justify-end pt-2 border-t border-border-subtle">
+        <button onclick="App.closeModal('modal-verifikasi')" class="w-full py-2.5 rounded-xl bg-primary text-white text-xs font-bold">
+          Selesai
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast Container -->
+  <div id="toast-container"></div>
+
+  <!-- App JavaScript Suite -->
+  <script src="js/config.js"></script>
+  <script src="js/store.js"></script>
+  <script src="js/doc-engine.js"></script>
+  <script src="js/api.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
